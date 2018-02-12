@@ -43,7 +43,8 @@
 class Relation < ActiveRecord::Base
   Positive = %w{ custom public follow owner local_admin }
   Negative = %w{ reject }
-
+  attr_accessible :permissions
+  
   has_many :relation_permissions, :dependent => :destroy
   has_many :permissions, :through => :relation_permissions
 

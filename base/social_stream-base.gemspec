@@ -77,7 +77,7 @@ Gem::Specification.new do |s|
   # Integration testing
   s.add_development_dependency('capybara', '~> 0.3.9')
   # Testing database
-  s.add_development_dependency('sqlite3-ruby')
+  s.add_development_dependency('sqlite3')
   # Specs
   s.add_development_dependency('rspec-rails', '~> 2.6.1')
   # Fixtures
@@ -89,6 +89,6 @@ Gem::Specification.new do |s|
   # Scaffold generator
   s.add_development_dependency('nifty-generators','~> 0.4.5')
   # pry
-  s.add_development_dependency('pry-rails','~> 0.4.5')
+  s.add_development_dependency('pry-rails','~> 0.3.6')
 
 end
