@@ -1,5 +1,7 @@
 class Profile < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  
+  attr_accessible :organization, :tag_list, :experience, :phone, :mobile, :fax, :email, :address, :website
 
   belongs_to :actor,
              validate: true,

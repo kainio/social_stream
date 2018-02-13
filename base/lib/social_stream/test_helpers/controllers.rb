@@ -110,8 +110,10 @@ module SocialStream
           end
 
           resource = assigns(demodulized_model_sym)
-
-          resource.should_not_receive(:update_attributes)
+          
+          if resource.respond_to? :update_attributes
+            resource.should_not_receive(:update_attributes)
+          end
         end
       end
 

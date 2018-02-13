@@ -18,6 +18,8 @@
 class Contact < ActiveRecord::Base
   # Send a message when this contact is created or updated
   attr_accessor :message
+  attr_accessible :receiver_id, :sender_id, :user_author, :relation_ids, :message
+
 
   belongs_to :inverse,
              :class_name => "Contact"

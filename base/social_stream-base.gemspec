@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   # jQuery
   s.add_runtime_dependency('jquery-rails', '>= 3.0.0')
   # jQuery UI
-  s.add_runtime_dependency('jquery-ui-rails', '>= 4.0.3')
+  s.add_runtime_dependency('jquery-ui-rails', '~> 4.0.3')
   # Select2 javascript library
   s.add_runtime_dependency('select2-rails', '~> 3.3.0')
   # Authorization

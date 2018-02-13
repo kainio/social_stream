@@ -1,4 +1,7 @@
 class ActivityObjectProperty < ActiveRecord::Base
+  
+  attr_accessible :activity_object_id, :property_id, :main
+  
   belongs_to :activity_object,
              inverse_of: :activity_object_properties
 

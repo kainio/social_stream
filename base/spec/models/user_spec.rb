@@ -100,8 +100,8 @@ describe User do
 
   it "should update password" do
     user = Factory(:user)
-    user.password = "testing"
-    user.password_confirmation = "testing"
+    user.password = "testing321"
+    user.password_confirmation = "testing321"
 
     assert user.save
   end

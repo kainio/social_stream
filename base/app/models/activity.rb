@@ -27,6 +27,7 @@
 class Activity < ActiveRecord::Base
   # FIXME: this does not follow the Rails way
   include NotificationsHelper
+  attr_accessible :author, :user_author, :owner, :relation_ids, :activity_verb, :verb, :author_id, :parent_id, :user_author_id, :owner_id
 
   # This has to be declared before 'has_ancestry' to work around rails issue #670
   # See: https://github.com/rails/rails/issues/670

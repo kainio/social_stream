@@ -25,7 +25,7 @@ describe "Navigation" do
 
       it "should close tab" do
         visit home_path
-        click_link "X"
+        click_link "x"
 
       end
     end

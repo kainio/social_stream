@@ -9,6 +9,8 @@ class Relation::Custom < Relation
   # to recognize STI
   inspect
   has_ancestry
+  
+  attr_accessible  :actor, :name, :receiver_type, :actor_id
 
   belongs_to :actor
 

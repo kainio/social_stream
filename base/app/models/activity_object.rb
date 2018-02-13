@@ -10,6 +10,7 @@
 #
 class ActivityObject < ActiveRecord::Base
   attr_reader :_activity_parent_id
+  attr_accessible :object_type
 
   # ActivityObject is a supertype of SocialStream.objects
   supertype_of :object

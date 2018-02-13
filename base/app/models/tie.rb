@@ -22,6 +22,8 @@
 #                        integer, array
 #
 class Tie < ActiveRecord::Base
+  attr_accessible :contact_id, :relation_id, :contact, :relation
+  
   belongs_to :contact,
              :counter_cache => true,
              :inverse_of    => :ties

@@ -1,4 +1,5 @@
 class Site::Current < Site
+  attr_accessible :name
   class << self
     def instance
       @instance ||=

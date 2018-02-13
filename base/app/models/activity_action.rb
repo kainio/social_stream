@@ -6,6 +6,8 @@ class ActivityAction < ActiveRecord::Base
 
   belongs_to :actor
   belongs_to :activity_object
+  
+  attr_accessible :actor_id, :activity_object
 
   scope :sent_by, lambda{ |actor|
     where(:actor_id => Actor.normalize_id(actor))

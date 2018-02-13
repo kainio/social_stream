@@ -33,7 +33,7 @@ describe ContactsController do
 
   it "should render pending" do
     pending
-
+    
     get 'pending'
 
     response.should be_success
@@ -49,8 +49,7 @@ describe ContactsController do
     @user.reload.
       sent_ties.
       merge(Contact.received_by(@tie.receiver)).
-      first.relation.
-      should == @user.relations.last
+      first.relation.should == @user.relations.last
   end
 
   it "should create contact" do

@@ -7,7 +7,8 @@ class Group < ActiveRecord::Base
   include SocialStream::Models::Subject
 
   attr_accessor :owners
-
+  attr_accessible :owners, :name, :author_id, :description, :user_author_id, :owner_id, :profile_attributes, :tag_list
+  
   delegate :description, :description=, :to => :profile!
 
   after_create :create_ties

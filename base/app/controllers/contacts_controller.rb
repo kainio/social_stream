@@ -59,6 +59,7 @@ class ContactsController < ApplicationController
       format.js
     end
   end
+  
 
   def destroy
     relation_ids = []
@@ -128,5 +129,9 @@ class ContactsController < ApplicationController
       flash.now[:error] = errors.to_sentence
       redirect_to action: :index
     end
+  end
+  
+  def contact_params
+    params.require(:contact).permit(:relation_ids, :message)
   end
 end

@@ -1,5 +1,7 @@
 class Comment < ActiveRecord::Base
   include SocialStream::Models::Object
+  
+  attr_accessible :owner_id, :_activity_parent_id, :author_id, :user_author_id, :text
 
   alias_attribute :text, :description
   validates_presence_of :text
