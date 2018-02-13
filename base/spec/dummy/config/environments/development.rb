@@ -8,6 +8,8 @@ Dummy::Application.configure do
 
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
+  
+  config.action_mailer.default_url_options = { :host => "social-stream-poliam.c9users.io" }
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true

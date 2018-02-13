@@ -10,7 +10,7 @@ class Relation::Custom < Relation
   inspect
   has_ancestry
   
-  attr_accessible  :actor, :name, :receiver_type, :actor_id
+  attr_accessible  :actor, :name, :receiver_type, :actor_id, :permission_ids
 
   belongs_to :actor
 
