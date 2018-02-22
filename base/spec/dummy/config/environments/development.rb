@@ -10,6 +10,7 @@ Dummy::Application.configure do
   config.whiny_nils = true
   
   config.action_mailer.default_url_options = { :host => "social-stream-poliam.c9users.io" }
+  Paperclip.options[:command_path] = "/usr/bin/identify"
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true

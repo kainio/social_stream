@@ -21,7 +21,7 @@
 class Actor < ActiveRecord::Base
   # Actor is a supertype of all subjects defined in SocialStream.subjects
   supertype_of :subject
-  attr_accessible :subject_type, :notify_by_email
+  attr_accessible :subject_type, :notify_by_email, :logo, :logo_crop_x, :logo_crop_y, :logo_crop_w, :avatar_tmp_basename
 
   include SocialStream::Models::Object
   
