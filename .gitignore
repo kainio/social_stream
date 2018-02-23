@@ -20,3 +20,4 @@ spec/dummy/tmp/
 .code_swarm
 .sass-cache/
 .yardoc/
+avatars_for_rails
