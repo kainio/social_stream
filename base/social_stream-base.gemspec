@@ -78,6 +78,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency('capybara', '~> 0.3.9')
   # Testing database
   s.add_development_dependency('sqlite3')
+  
+  s.add_development_dependency('test-unit')
+
   # Specs
   s.add_development_dependency('rspec-rails', '~> 2.6.1')
   # Fixtures
