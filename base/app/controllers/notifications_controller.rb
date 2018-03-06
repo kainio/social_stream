@@ -37,7 +37,7 @@ class NotificationsController < ApplicationController
   end
   
   def update_all
-    @notifications= @mailbox.notifications.all
+    @notifications= @mailbox.notifications.to_a
     @actor.mark_as_read @notifications
 
     if request.xhr?
@@ -66,7 +66,7 @@ class NotificationsController < ApplicationController
 
   def check_current_subject_is_owner
     
-    @notification = Notification.find_by_id(params[:id])
+    @notification = Mailboxer::Notification.find_by_id(params[:id])
 
     if @notification.nil? #TODO or !@notification.is_receiver?(@actor)
       redirect_to notifications_path
