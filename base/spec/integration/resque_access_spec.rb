@@ -9,7 +9,7 @@ describe "ResqueAccess" do
     it "should be success" do
       get '/resque/overview'
 
-      response.should be_success
+      expect(response).to be_success
     end
   end
 

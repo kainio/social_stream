@@ -1,26 +1,26 @@
 require 'rails_helper'
 
 describe "Navigation" do
-  include Capybara
+  include Capybara::DSL
   
   it "should be a valid app" do
-    ::Rails.application.should be_a(Dummy::Application)
+    expect(::Rails.application).to be_a(Dummy::Application)
   end
 
   context "logged in" do
     before(:all) do
-      @user = Factory(:user)
+      @user = FactoryBot.create(:user)
 
       visit root_path
       fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => 'testing'
+      fill_in 'user_password', :with => 'testing123'
 
       click_button 'Sign in'
     end
 
     context "with other user" do
       before do
-        Factory(:user)
+        FactoryBot.create(:user)
       end
 
       it "should close tab" do
