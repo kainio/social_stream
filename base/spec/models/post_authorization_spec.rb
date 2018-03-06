@@ -12,59 +12,59 @@ module PostAuthorizationTestHelper
   end
 
   def create_ability_accessed_publicly
-    u = Factory(:user)
+    u = FactoryBot.create(:user)
     @ability = Ability.new(u)
   end
 
   def create_related_tie(tie_type)
-    Factory(tie_type, :contact => Factory(:contact, :sender => Actor.normalize(@subject)))
+    FactoryBot.create(tie_type, :contact => FactoryBot.create(:contact, :sender => Actor.normalize(@subject)))
   end
 
   shared_examples_for "Allows Creating" do
     it "should allow create" do
-      @ability.should be_able_to(:create, @post)
+      expect(@ability).to be_able_to(:create, @post)
     end
   end
 
   shared_examples_for "Allows Reading" do
     it "should allow read" do
-      @ability.should be_able_to(:read, @post)
+      expect(@ability).to be_able_to(:read, @post)
     end
   end
 
   shared_examples_for "Allows Updating" do
     it "should allow update" do
-      @ability.should be_able_to(:update, @post)
+      expect(@ability).to be_able_to(:update, @post)
     end
   end
 
   shared_examples_for "Allows Destroying" do
     it "should allow destroy" do
-      @ability.should be_able_to(:destroy, @post)
+      expect(@ability).to be_able_to(:destroy, @post)
     end
   end
 
   shared_examples_for "Denies Creating" do
     it "should deny create" do
-      @ability.should_not be_able_to(:create, @post)
+      expect(@ability).to_not be_able_to(:create, @post)
     end
   end
 
   shared_examples_for "Denies Reading" do
     it "should deny read" do
-      @ability.should_not be_able_to(:read, @post)
+      expect(@ability).to_not be_able_to(:read, @post)
     end
   end
 
   shared_examples_for "Denies Updating" do
     it "should deny update" do
-      @ability.should_not be_able_to(:update, @post)
+      expect(@ability).to_not be_able_to(:update, @post)
     end
   end
 
   shared_examples_for "Denies Destroying" do
     it "should deny destroy" do
-      @ability.should_not be_able_to(:destroy, @post)
+      expect(@ability).to_not be_able_to(:destroy, @post)
     end
   end
 end
@@ -73,7 +73,7 @@ describe Post do
   include PostAuthorizationTestHelper
 
   before :all do
-    @subject = @user = Factory(:user)
+    @subject = @user = FactoryBot.create(:user)
   end
 
   context "with friend tie" do
@@ -83,13 +83,13 @@ describe Post do
 
     describe "posting for all contacts" do
       before :all do
-        @post = Factory(:post,
+        @post = FactoryBot.create(:post,
                         :author => @tie.receiver,
                         :owner  => @tie.sender)
       end
 
       describe "accesed by author" do
-        before do
+        before(:each) do
           create_ability_accessed_by(@post.author_subject)
         end
 
@@ -145,7 +145,7 @@ describe Post do
 
     describe "posting only to friends" do
       before :all do
-        @post = Factory(:post,
+        @post = FactoryBot.create(:post,
                         :author => @tie.receiver,
                         :owner  => @tie.sender,
                         :relation_ids => [@tie.relation_id])
@@ -211,7 +211,7 @@ describe Post do
     describe "posting to public relation" do
 
       before do
-        @post = Factory(:post,
+        @post = FactoryBot.create(:post,
                         :author => @tie.receiver,
                         :owner  => @tie.sender,
                         :relation_ids => [Relation::Public.instance.id])
@@ -275,7 +275,7 @@ describe Post do
 
     describe "posting by not replied" do
       before :all do
-        @post = Factory(:post,
+        @post = FactoryBot.create(:post,
                         :author => @tie.sender,
                         :owner  => @tie.receiver)
       end
@@ -292,7 +292,7 @@ describe Post do
 
   context "group" do
     before(:all) do
-      @subject = @group = Factory(:group)
+      @subject = @group = FactoryBot.create(:group)
     end
 
     describe "with member tie" do
@@ -302,7 +302,7 @@ describe Post do
 
       describe "posting from member all contacts" do
         before :all do
-          @post = Factory(:post,
+          @post = FactoryBot.create(:post,
                           :author => @tie.receiver,
                           :owner  => @tie.sender)
         end
