@@ -4,7 +4,7 @@ class ActivityVerb < ActiveRecord::Base
 
   validates_uniqueness_of :name
 
-  has_many :activities, :inverse_of => :activity_verb, dependent: :delete_all
+  has_many :activities, :inverse_of => :activity_verb
 
   scope :verb_name, lambda{ |n|
     where(:name => n)

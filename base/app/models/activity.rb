@@ -46,9 +46,9 @@ class Activity < ActiveRecord::Base
              :class_name => "Actor"
   belongs_to :user_author,
              :class_name => "Actor"
-
+             
   has_many :audiences, :dependent => :destroy
-  has_many :relations, :through => :audiences
+  has_many :relations, :through => :audiences, dependent: :destroy
 
   has_many :activity_object_activities,
            :dependent => :destroy
@@ -98,7 +98,7 @@ class Activity < ActiveRecord::Base
 
   # The name of the verb of this activity
   def verb
-    activity_verb.name
+    activity_verb.name if activity_verb
   end
 
   # Set the name of the verb of this activity
