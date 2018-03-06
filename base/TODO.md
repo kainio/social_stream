@@ -24,5 +24,4 @@ You have also used finder options. These are also deprecated. Please build a sco
 
 [i18n] upgrade the configuration of translations vendor/assets/javascripts/i18n/translations.js.erb
 
-[test] rspec ./spec/models/group_spec.rb:19 # Group should save tag list
 
