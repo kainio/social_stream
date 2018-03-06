@@ -82,7 +82,7 @@ FactoryBot.define do
     a.owner         { |b| b.parent.owner }
     a.activity_verb { ActivityVerb["like"] }
     a.relation_ids  { |b| b.parent.relation_ids }
-    a.after_build   { |b| b.activity_object_ids = b.parent.activity_object_ids }
+    a.after(:build)   { |b| b.activity_object_ids = b.parent.activity_object_ids }
   end
 end
 

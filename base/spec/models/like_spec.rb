@@ -5,7 +5,7 @@ describe Like do
     it "should recognize the user who likes it" do
       Like.build(@sender, @sender, @receiver).save
 
-      assert @receiver.liked_by?(@sender)
+      expect(@receiver.liked_by?(@sender)).to be true
     end
 
     it "should increment like count" do
@@ -13,7 +13,7 @@ describe Like do
 
       Like.build(@sender, @sender, @receiver).save
 
-      @receiver.like_count.should eq(count + 1)
+      expect(@receiver.like_count).to eq(count + 1)
     end
 
     it "should decrement like count" do
@@ -24,24 +24,24 @@ describe Like do
 
       @like.destroy
 
-      @receiver.like_count.should eq(count - 1)
+      expect(@receiver.like_count).to eq(count - 1)
     end
   end
 
   describe "activity" do
-    before do
-      @like_activity = Factory(:like_activity)
+    before(:each) do
+      @like_activity = FactoryBot.create(:like_activity)
       @activity = @like_activity.parent
       @sender = @like_activity.sender
       @receiver = @activity
     end
 
     it "should recognize the user who likes it" do
-      assert @activity.liked_by?(@like_activity.sender)
+      expect(@activity.liked_by?(@like_activity.sender)).to be true
     end
 
     it "should not recognize the user who does not like it" do
-      assert ! @activity.liked_by?(Factory(:user))
+      expect(! @activity.liked_by?(FactoryBot.create(:user))).to be true
     end
   end
 
@@ -49,7 +49,7 @@ describe Like do
 
     context "friend" do
       before do
-        tie = Factory(:friend)
+        tie = FactoryBot.create(:friend)
         @sender = tie.sender
         @receiver = tie.receiver
       end
@@ -59,7 +59,7 @@ describe Like do
 
     context "alien" do
       before do
-        @sender, @receiver = 2.times.map{ Factory(:user) }
+        @sender, @receiver = 2.times.map{ FactoryBot.create(:user) }
       end
 
       it_should_behave_like "creates activity"
@@ -68,8 +68,8 @@ describe Like do
 
   describe "post" do
     before do
-      @receiver = Factory(:post)
-      @sender = Factory(:user)
+      @receiver = FactoryBot.create(:post)
+      @sender = FactoryBot.create(:user)
     end
 
     it_should_behave_like "creates activity"
@@ -77,8 +77,8 @@ describe Like do
 
   describe "comment" do
     before do
-      @receiver = Factory(:comment)
-      @sender = Factory(:user)
+      @receiver = FactoryBot.create(:comment)
+      @sender = FactoryBot.create(:user)
     end
 
     it_should_behave_like "creates activity"
