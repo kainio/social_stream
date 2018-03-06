@@ -6,27 +6,27 @@ describe PermissionsController do
   render_views
 
   describe "when authenticated" do
-    before do
-      @user = Factory(:user)
+    before(:each) do
+      @user = FactoryBot.create(:user)
 
       sign_in @user
     end
 
     context "with an existing relation" do
-      before do
-        @relation = Factory(:relation_custom, :actor_id => @user.actor_id)
+      before(:each) do
+        @relation = FactoryBot.create(:relation_custom, :actor_id => @user.actor_id)
       end
 
       it "should render index" do
         get :index, :relation_id => @relation.id, :format => "html"
 
-        response.should be_success
+        expect(response).to be_success
       end
     end
 
     context "a external relation" do
       before do
-        @relation = Factory(:relation_custom)
+        @relation = FactoryBot.create(:relation_custom)
       end
 
       it "should not render index" do
