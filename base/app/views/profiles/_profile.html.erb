@@ -11,7 +11,7 @@
   <% end %>
 
   <% if can?(:update, @profile) || @profile.contact_present? %>
-    <%= render :partial => "comunication-info" %>
+    <%= render :partial => "communication_info" %>
   <% end %>
 
   <% if can?(:update, @profile) || @profile.experience? %>

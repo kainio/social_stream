@@ -6,48 +6,48 @@ describe ProfilesController do
 
   context "for a user" do
     before do
-      @user = Factory(:user)
+      @user = FactoryBot.create(:user)
       sign_in @user
     end
 
     it "should render show" do
       get :show
 
-      assert_response :success
+      expect(response).to be_success
     end
 
     it "should render show.json" do
       get :show, format: :json
 
-      assert_response :success
+      expect(response).to be_success
     end
 
     it "should render show with user param" do
       get :show, :user_id => @user.to_param
 
-      assert_response :success
+      expect(response).to be_success
     end
 
     it "should update" do
       put :update, :user_id => @user.to_param, :profile => { :organization => "Social Stream" }
 
-      response.should redirect_to([@user, :profile])
+      expect(response).to redirect_to([@user, :profile])
     end
 
     it "should update via AJAX" do
       put :update, :user_id => @user.to_param, :profile => { :organization => "Social Stream" }, :format => :js
 
-      response.should be_success
+      expect(response).to be_success
     end
 
 
     it "should not update other's" do
       begin
-        put :update, :user_id => Factory(:user).to_param, :profile => { :organization => "Social Stream" }
+        put :update, :user_id => FactoryBot.create(:user).to_param, :profile => { :organization => "Social Stream" }
 
-        assert false
+        is_expected.to be false
       rescue CanCan::AccessDenied
-        assert true
+        is_expected.to be_truthy
       end
     end
 
@@ -55,7 +55,7 @@ describe ProfilesController do
 
   context "for a group" do
     before do
-      membership = Factory(:member)
+      membership = FactoryBot.create(:member)
       @group = membership.sender_subject
       @user  = membership.receiver_subject
 
@@ -66,22 +66,22 @@ describe ProfilesController do
     it "should render show" do
       get :show, :group_id => @group.to_param
 
-      assert_response :success
+      expect(response).to be_success
     end
 
     it "should update" do
       put :update, :group_id => @group.to_param, :profile => { :organization => "Social Stream" }
 
-      response.should redirect_to([@group, :profile])
+      expect(response).to redirect_to([@group, :profile])
     end
 
     it "should not update other's" do
       begin
-        put :update, :group_id => Factory(:group).to_param, :profile => { :organization => "Social Stream" }
+        put :update, :group_id => FactoryBot.create(:group).to_param, :profile => { :organization => "Social Stream" }
 
-        assert false
+        is_expected.to be false
       rescue CanCan::AccessDenied
-        assert true
+        is_expected.to be_truthy
       end
     end
   end

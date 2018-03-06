@@ -14,7 +14,7 @@ describe PostsController do
 
     describe "posts to user" do
       describe "with first relation" do
-        before do
+        before(:each) do
           contact = @user.contact_to!(@user)
           relation = @user.relation_customs.sort.first
           model_assigned_to @user.contact_to!(@user), relation
@@ -194,8 +194,8 @@ describe PostsController do
 
         post = assigns(:post)
 
-        post.should be_valid
-        post.post_activity.relations.should include(@tie.relation)
+        expect(post).to be_valid
+        expect(post.post_activity.relations).to include(@tie.relation)
       end
 
       it "should assign activity to member" do
@@ -209,8 +209,8 @@ describe PostsController do
 
         post = assigns(:post)
 
-        post.should be_valid
-        post.post_activity.relations.should include(@tie.relation)
+        expect(post).to be_valid
+        expect(post.post_activity.relations).to include(@tie.relation)
 
         expect(response).to be_success
       end
@@ -244,7 +244,7 @@ describe PostsController do
       it "should redirect show to home" do
         get :show, :id => @post.to_param, :s => @group.slug
 
-        response.should redirect_to(:home)
+        expect(response).to redirect_to(:home)
       end
     end
   end
