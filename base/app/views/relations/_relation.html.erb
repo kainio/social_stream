@@ -13,7 +13,7 @@
     <% end %>
 
     <% if can? :delete, relation %>
-      <%= link_to relation, class: "delete", method: :delete, confirm: t('relation_custom.confirm_delete'), remote: true do %>
+      <%= link_to relation, class: "delete", method: :delete, data: { confirm: t('relation_custom.confirm_delete')}, remote: true do %>
         <i class="icon_tool16-trash"></i>
       <% end %>
     <% end %>
