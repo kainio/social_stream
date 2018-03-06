@@ -1,9 +1,10 @@
 class FrontpageController < ApplicationController
   include SocialStream::Devise::Controllers::UserSignIn
 
-  before_filter :redirect_user_to_home, :only => :index
+  before_action :redirect_user_to_home, :only => :index
 
   def index
+    @resource = User.new
     respond_to do |format|
       format.html # index.html.erb
     end
@@ -16,4 +17,3 @@ class FrontpageController < ApplicationController
   end
 
 end
-

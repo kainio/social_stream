@@ -58,9 +58,9 @@ class Contact < ActiveRecord::Base
     end
   }
 
-  scope :recent, order("contacts.created_at DESC")
+  scope :recent, -> { order("contacts.created_at DESC")}
 
-  scope :active, where(arel_table[:ties_count].gt(0))
+  scope :active, -> { where(arel_table[:ties_count].gt(0))}
 
   scope :positive, lambda {
     select("DISTINCT contacts.*").
@@ -68,13 +68,13 @@ class Contact < ActiveRecord::Base
       merge(Relation.where(:type => Relation.positive_names))
   }
 
-  scope :not_reflexive, where(arel_table[:sender_id].not_eq(arel_table[:receiver_id]))
+  scope :not_reflexive, -> {where(arel_table[:sender_id].not_eq(arel_table[:receiver_id]))}
 
-  scope :pending, active.
+  scope :pending, -> {active.
                   positive.
                   not_reflexive.
                   joins("LEFT JOIN contacts AS inverse_contacts ON inverse_contacts.id = contacts.inverse_id").
-                  where(arel_table[:inverse_id].eq(nil).or(arel_table.alias("inverse_contacts")[:ties_count].eq(0)))
+                  where(arel_table[:inverse_id].eq(nil).or(arel_table.alias("inverse_contacts")[:ties_count].eq(0)))}
 
   scope :related_by_param, lambda { |p|
     if p.present?
@@ -134,11 +134,11 @@ class Contact < ActiveRecord::Base
   end
 
   # The {ActivityVerb} corresponding to this {Contact}. If this contact is pending,
-  # the other one was establised already, so this is going to "make-friend".
+  # the other one was establised already, so this is going to "make_friend".
   # If it is not pending, the contact in the other way was not established, so this
   # is following
   def verb
-    replied? ? "make-friend" : "follow"
+    replied? ? "make_friend" : "follow"
   end
 
   # Record who creates ties in behalf of a group or organization

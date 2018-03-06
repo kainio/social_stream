@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "ResqueAccess" do
   context "with config enabled" do

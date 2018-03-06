@@ -22,7 +22,7 @@ module SocialStream
       # Factory.attributes_for(:post) for PostsController
       def model_attributes
         @model_attributes ||=
-          Factory.attributes_for(model_sym)
+          FactoryBot.attributes_for(model_sym)
       end
 
       def attributes
@@ -50,9 +50,9 @@ module SocialStream
 
           resource = assigns(demodulized_model_sym)
 
-          model_count.should eq(count + 1)
-          resource.should be_valid
-          response.should redirect_to(resource)
+          expect(model_count).to eq(count + 1)
+          expect(resource).to be_valid
+          expect(response).to redirect_to(resource)
         end
       end
 
@@ -66,8 +66,8 @@ module SocialStream
 
           resource = assigns(demodulized_model_sym)
 
-          model_count.should eq(count)
-          resource.should be_new_record
+          expect(model_count).to eq(count)
+          expect(resource).to be_new_record
         end
       end
 
@@ -75,7 +75,7 @@ module SocialStream
         it "should read" do
           get :show, :id => @current_model.to_param
 
-          response.should be_success
+          expect(response).to be_success
         end
       end
 
@@ -98,7 +98,7 @@ module SocialStream
 
           resource.should_receive(:update_attributes).with(attributes)
           assert resource.valid?
-          response.should redirect_to(resource)
+          expect(response).to redirect_to(resource)
         end
       end
 

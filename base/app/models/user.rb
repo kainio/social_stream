@@ -34,8 +34,8 @@ class User < ActiveRecord::Base
     v.validates_length_of       :password, :within => Devise.password_length, :allow_blank => true
   end
 
-  scope :last_registered, order('users.created_at DESC')
-  scope :last_active,     order('users.updated_at DESC')
+  scope :last_registered, -> {order('users.created_at DESC')}
+  scope :last_active,     -> { order('users.updated_at DESC') }
   
   # Subjects this user can acts as
   def represented
@@ -78,10 +78,9 @@ class User < ActiveRecord::Base
     %w( email slug name ).each do |a|
       eval <<-EOS
     def find_by_#{ a }(#{ a })             # def find_by_email(email)
-      find :first,                         #   find(:first,
-           :include => :actor,             #         :include => :actor,
-           :conditions =>                  #         :conditions =>
-             { 'actors.#{ a }' => #{ a } } #           { 'actors.email' => email }
+      includes(:actor).             #         :include => :actor,
+      where({ 'actors.#{ a }' => #{ a } }). #           { 'actors.email' => email }
+      first
     end                                    # end
       EOS
     end

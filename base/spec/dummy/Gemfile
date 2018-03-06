@@ -1,8 +1,17 @@
 source "http://rubygems.org"
 
-gem "rails", "~>3.2"
-gem "capybara", ">= 0.4.0"
+gem "rails", "~>4.0.0"
+gem "capybara"
 gem "sqlite3"
+
+group :production do
+    gem "mysql2"
+end
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_bot_rails', '~>4.8.2'
+end
 
 gem "social_stream-base", path: "../../"
 gem "avatars_for_rails", path: "../../../avatars_for_rails"

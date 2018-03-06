@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe SocialStream::ActivityStreams do
   it "should find by type" do

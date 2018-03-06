@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Tie do
   describe "follower_count" do
@@ -51,11 +51,11 @@ describe Tie do
         @reciprocal = Factory(:friend, :contact => @tie.contact.inverse!)
       end
 
-      it "should create activity with make-friend verb" do
+      it "should create activity with make_friend verb" do
         activity = Activity.authored_by(@reciprocal.sender).owned_by(@reciprocal.receiver).first
 
         activity.should be_present
-        activity.verb.should eq('make-friend')
+        activity.verb.should eq('make_friend')
       end
     end
 

@@ -1,5 +1,7 @@
 // Brand: website or project name
 // -------------------------
+
+
 .navbar .brand {
   float: left;
   display: inline-block;
@@ -32,8 +34,6 @@
 .navbar-search {
   .search-query {
     padding: 1px 4px 0;
-    @include font-sans-serif(12px, normal, 1);
-    @include border-radius(5px); // redeclare because of specificity of the type attribute
   }
 }
 
@@ -51,6 +51,4 @@
 input.search-query {
   margin-top: 2px;
   padding: 1px 11px 0;
-  @include font-sans-serif(12px, normal, 1);
-  @include border-radius(5px); // redeclare because of specificity of the type attribute
 }

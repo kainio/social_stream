@@ -1,51 +1,51 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Actor do
   it "should generate slug" do
-    assert Factory(:user).actor.slug.present?
+    expect(FactoryBot.create(:user).actor.slug).to be_present
   end
 
   it "should generate different slug" do
-    a = Factory(:user).actor
-    b = Factory(:user, :name => a.name).actor
+    a = FactoryBot.create(:user).actor
+    b = FactoryBot.create(:user, :name => a.name).actor
 
-    a.name.should == b.name
-    a.slug.should_not == b.slug
+    expect(a.name).to eq(b.name)
+    expect(a.slug).to_not eq(b.slug)
   end
 
   it "should generate relations" do
-    assert Factory(:user).relation_customs.present?
+    expect(FactoryBot.create(:user).relation_customs).to be_present
   end
 
   context 'pending contacts' do
     it 'should not include self' do
-      a = Factory(:user).actor
+      a = FactoryBot.create(:user).actor
       c = a.contact_to!(a)
 
-      a.pending_contacts.should_not include(c)
+      expect(a.pending_contacts).to_not include(c)
     end
   end
 
   it 'should generate suggestion' do
     10.times do
-      Factory(:user)
+      FactoryBot.create(:user)
     end
 
-    sgs = Factory(:user).suggestions(5)
+    sgs = FactoryBot.create(:user).suggestions(5)
 
-    sgs.size.should be(5)
+    expect(sgs.size).to be(5)
 
     sgs_names = sgs.map{ |s| s.receiver_subject.name }.compact
 
-    sgs.size.should be(5)
+    expect(sgs.size).to be(5)
   end
 
   it "should be destroyed" do
-    u = Factory(:user)
+    u = FactoryBot.create(:user)
     a = u.actor
 
     u.destroy
 
-    Actor.find_by_id(a.id).should be_nil
+    expect(Actor.find_by_id(a.id)).to be_nil
   end
 end

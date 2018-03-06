@@ -1,59 +1,59 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ActivityObjectProperty do
   describe "siblings" do
     it "should work" do
-      holder, one, two, three = 4.times.map{ Factory(:post) }
+      holder, one, two, three = 4.times.map{ FactoryBot.create(:post) }
 
       p = ActivityObjectProperty.create! activity_object_id: holder.activity_object_id,
                                          property_id:        one.activity_object_id
 
-      p.siblings.should be_blank
-      p.main.should be_true
+      expect(p.siblings).to be_blank
+      expect(p.main).to be true
 
       q = ActivityObjectProperty.create! activity_object_id: holder.activity_object_id,
                                          property_id:        two.activity_object_id
 
-      p.siblings.should include(q)
-      p.reload.main.should be_true
-      q.main.should be_false
+      expect(p.siblings).to include(q)
+      expect(p.reload.main).to be true
+      expect(q.main).to be_falsy
 
       r = ActivityObjectProperty.create! activity_object_id: holder.activity_object_id,
                                          property_id:        three.activity_object_id,
                                          main:               true
 
-      r.siblings.should include(p)
-      r.siblings.should include(q)
+      expect(r.siblings).to include(p)
+      expect(r.siblings).to include(q)
 
-      p.reload.main.should be_false
-      q.reload.main.should be_false
-      r.main.should be_true
+      expect(p.reload.main).to be_falsy
+      expect(q.reload.main).to be_falsy
+      expect(r.main).to be true
     end
   end
 
   context "with main_holder_object_ids" do
     it "should be created" do
-      @holder = Factory(:post)
+      @holder = FactoryBot.create(:post)
 
       prop = Post.create! text: "Text",
                           author: @holder.author,
                           main_holder_object_ids: [ @holder.activity_object_id ]
 
-      @holder.posts.should include(prop)
-      @holder.main_post.should eq(prop)
+      expect(@holder.posts).to include(prop)
+      expect(@holder.main_post).to eq(prop)
     end
   end
 
   context "with add_holder_post_id" do
     it "should be created" do
-      @holder = Factory(:post)
+      @holder = FactoryBot.create(:post)
 
       prop = Post.create! text: "Text",
                           author: @holder.author,
                           add_holder_post_id: @holder.id
 
-      @holder.posts.should include(prop)
-      @holder.main_post.should eq(prop)
+      expect(@holder.posts).to include(prop)
+      expect(@holder.main_post).to eq(prop)
     end
   end
 end

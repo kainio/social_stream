@@ -71,7 +71,7 @@ es:
       title:
         follow: '%{author} añadió a %{activity_object} como contacto'
         like: A %{author} le gusta %{activity_object}
-        make-friend: '%{author} también añadió a %{activity_object} como contacto'
+        make_friend: '%{author} también añadió a %{activity_object} como contacto'
         post: '%{author} publicó %{activity_object}'
         updated: '%{author} actualizó %{activity_object}'
     title: Actividades
@@ -94,7 +94,7 @@ es:
         User:
           message: '%{name} es tu fan.'
           title: '%{subject} es fan de %{contact}.'
-      make-friend:
+      make_friend:
         Group:
           message: '%{name} te añadió.'
           title: '%{subject} añadió a %{contact}.'

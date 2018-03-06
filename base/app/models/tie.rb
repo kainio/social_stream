@@ -39,7 +39,7 @@ class Tie < ActiveRecord::Base
       merge(Relation.allowing(action, object))
   }
 
-  scope :recent, order("ties.created_at DESC")
+  scope :recent, -> {order("ties.created_at DESC")}
 
   scope :sent_by, lambda { |a|
     joins(:contact).merge(Contact.sent_by(a))

@@ -12,7 +12,7 @@ class ActivityObjectProperty < ActiveRecord::Base
   before_create :set_main
   after_update :update_main
 
-  scope :main, where(main: true)
+  scope :main, -> { where(main: true) }
 
   def siblings
     self.
@@ -20,6 +20,7 @@ class ActivityObjectProperty < ActiveRecord::Base
       includes(:property).
       where(activity_object_id: activity_object_id).
       where("property_id != ?", property_id).
+      references(:property).
       merge(ActivityObject.where(object_type: property.object_type))
   end
 

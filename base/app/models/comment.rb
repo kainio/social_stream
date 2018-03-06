@@ -8,10 +8,10 @@ class Comment < ActiveRecord::Base
 
   after_create :increment_comment_count
   before_destroy :decrement_comment_count
-
-  define_index do
-    activity_object_index
-  end
+  #not needed any more
+  #define_index do
+  #  activity_object_index
+  #end
 
   def parent_post
     _activity_parent_id && _activity_parent.direct_object ||

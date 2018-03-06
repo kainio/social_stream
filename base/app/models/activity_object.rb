@@ -28,17 +28,17 @@ class ActivityObject < ActiveRecord::Base
            :dependent  => :destroy,
            :autosave   => true
   has_many :followers,
+            -> {where({ 'activity_actions.follow' => true })},
            :through => :received_actions,
-           :source  => :actor,
-           :conditions => { 'activity_actions.follow' => true }
+           :source  => :actor
 
   # Associations for indexing
   has_many :author_actions,
-           :class_name => "ActivityAction",
-           :conditions => { :author => true }
+            -> { where({ :author => true })},
+           :class_name => "ActivityAction"
   has_many :owner_actions,
-           :class_name => "ActivityAction",
-           :conditions => { :owner => true }
+            -> { where({ :owner => true })},
+           :class_name => "ActivityAction"
 
   before_validation :fill_owner_id, :fill_user_author_id, :fill_relation_ids, :if => lambda { |obj| obj.object_type != "Actor" }
 
@@ -90,9 +90,9 @@ class ActivityObject < ActiveRecord::Base
     col
   }
 
-  scope :created, order("activity_objects.created_at DESC")
+  scope :created, ->{ order("activity_objects.created_at DESC")}
 
-  scope :followed, order("activity_objects.follower_count DESC")
+  scope :followed, ->{ order("activity_objects.follower_count DESC")}
 
   scope :followed_by, lambda { |subject|
     if subject.present?
@@ -101,11 +101,11 @@ class ActivityObject < ActiveRecord::Base
     end
   }
 
-  scope :not_actor, where('activity_objects.object_type != ?', "Actor")
+  scope :not_actor, ->{where('activity_objects.object_type != ?', "Actor")}
 
-  scope :popular, order("activity_objects.like_count DESC")
+  scope :popular, ->{order("activity_objects.like_count DESC")}
 
-  scope :visited, order("activity_objects.visit_count DESC")
+  scope :visited, ->{order("activity_objects.visit_count DESC")}
 
   scope :shared_with, lambda { |subject|
     joins(:activity_object_audiences).

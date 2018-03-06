@@ -1,3 +1,6 @@
+# Generator social_stream:install has modified this file. Please,
+# check everything is working ok, specially if the former `Ability`
+# class inherited from another class or included another module
 class Ability
   include SocialStream::Ability
 

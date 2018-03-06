@@ -71,13 +71,13 @@ class Actor < ActiveRecord::Base
            :source  => :permissions
  
   has_many :senders,
-           :through => :received_contacts,
-           :uniq => true
+            -> { uniq },
+           :through => :received_contacts
   
   has_many :receivers,
-           :through => :sent_contacts,
-           :uniq => true
-
+            -> { uniq },
+           :through => :sent_contacts
+           
   has_many :relations,
            :dependent => :destroy
 
@@ -85,9 +85,9 @@ class Actor < ActiveRecord::Base
            :class_name => "ActivityAction",
            :dependent  => :destroy
   has_many :followings,
+            -> { where 'activity_actions.follow' => true },
            :through => :sent_actions,
-           :source  => :activity_object,
-           :conditions => { 'activity_actions.follow' => true }
+           :source  => :activity_object
 
   has_many :authored_activities,
            :class_name  => "Activity",
@@ -105,7 +105,7 @@ class Actor < ActiveRecord::Base
   validates_presence_of :name, :message => ''
   validates_presence_of :subject_type
  
-  scope :alphabetic, order('actors.name')
+  scope :alphabetic, -> { order('actors.name')}
 
   scope :letter, lambda { |param|
     if param.present?
@@ -125,7 +125,7 @@ class Actor < ActiveRecord::Base
     end
   }
 
-  scope :distinct_initials, select('DISTINCT SUBSTR(actors.name,1,1) as initial').order("initial ASC")
+  scope :distinct_initials, -> { select('DISTINCT SUBSTR(actors.name,1,1) as initial').order("initial ASC") }
 
   scope :contacted_to, lambda { |a|
     joins(:sent_contacts).merge(Contact.active.received_by(a))
@@ -141,7 +141,7 @@ class Actor < ActiveRecord::Base
     end
   }
 
-  scope :followed, joins(:activity_object).merge(ActivityObject.followed)
+  scope :followed, -> { joins(:activity_object).merge(ActivityObject.followed)}
 
   scope :followed_by, lambda { |a|
     select("DISTINCT actors.*").
@@ -523,7 +523,7 @@ class Actor < ActiveRecord::Base
 
   # Build a new {Contact} from each that has not inverse
   def pending_contacts
-    received_contacts.pending.includes(:inverse).all.map do |c|
+    received_contacts.pending.includes(:inverse).to_a.map do |c|
       c.inverse ||
         c.receiver.contact_to!(c.sender)
     end

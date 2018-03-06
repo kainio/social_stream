@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'settings/_index' do
   let(:user) { stub_model(User, { name: "Test User",

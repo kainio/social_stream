@@ -1,4 +1,12 @@
 require "acts_as_taggable_on/acts_as_taggable_on/dirty"
+require "acts_as_taggable_on/taggable"
+require "acts_as_taggable_on/taggable/core"
+require "acts_as_taggable_on/taggable/collection"
+require "acts_as_taggable_on/taggable/cache"
+require "acts_as_taggable_on/taggable/related"
+require "acts_as_taggable_on/taggable/ownership"
+require "acts_as_taggable_on/taggable/dirty"
+
 
 module ActsAsTaggableOn::Taggable::Core::ClassMethods
  def initialize_acts_as_taggable_on_core
@@ -8,8 +16,7 @@ module ActsAsTaggableOn::Taggable::Core::ClassMethods
      context_tags     = tags_type.to_sym
  
      class_eval do
-       has_many context_taggings, :as => :taggable, :dependent => :destroy, :include => :tag, :class_name => "ActsAsTaggableOn::Tagging",
-       :conditions => ["#{ActsAsTaggableOn::Tagging.table_name}.context = ?", tags_type]
+       has_many context_taggings, -> { includes(:tag).where(["#{ActsAsTaggableOn::Tagging.table_name}.context = ?", tags_type])}, :as => :taggable, :dependent => :destroy, :class_name => "ActsAsTaggableOn::Tagging"
        has_many context_tags, :through => context_taggings, :source => :tag, :class_name => "ActsAsTaggableOn::Tag"
      end
  
@@ -66,7 +73,7 @@ module ActsAsTaggableOn::Taggable
         self.tag_types = tag_types
 
       class_eval do
-        has_many :taggings, :as => :taggable, :dependent => :destroy, :include => :tag, :class_name => "ActsAsTaggableOn::Tagging"
+        has_many :taggings, ->{ includes :tag },:as => :taggable, :dependent => :destroy, :class_name => "ActsAsTaggableOn::Tagging"
         has_many :base_tags, :through => :taggings, :source => :tag, :class_name => "ActsAsTaggableOn::Tag"
 
         def self.taggable?

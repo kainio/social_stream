@@ -9,4 +9,8 @@ source "http://rubygems.org"
 
 gemspec
 
+group :production do
+    gem "mysql2"
+end
+
 gem 'avatars_for_rails', :path => '../avatars_for_rails'

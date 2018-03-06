@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  #devise_for :users # Or the name of the model you are using
+
   root :to => "frontpage#index"
   
-  match 'home' => 'home#index', :as => :home
-  match 'home' => 'home#index', :as => :user_root # devise after_sign_in_path_for
-  match 'explore(/:section)' => 'explore#index', :as => :explore
-  match 'search' => 'search#index', :as => :search
+  get 'home' => 'home#index', :as => :home
+  get 'home' => 'home#index', :as => :user_root # devise after_sign_in_path_for
+  get 'explore(/:section)' => 'explore#index', :as => :explore
+  get 'search' => 'search#index', :as => :search
 
   # Social Stream subjects configured in config/initializers/social_stream.rb
   route_subjects do
@@ -33,9 +35,9 @@ Rails.application.routes.draw do
   resources :actors, only: [ :index ]
 
   # Get information about current_subject
-  match 'user'    => 'users#current', format: :json
+  get 'user'    => 'users#current', format: :json
 
-  match 'profile' => 'profiles#show'
+  get 'profile' => 'profiles#show'
 
   # Social Stream objects configured in config/initializers/social_stream.rb
   #
@@ -74,7 +76,7 @@ Rails.application.routes.draw do
   
   resources :settings do
     collection do
-      put 'update_all'
+      patch 'update_all'
     end
   end
 
@@ -86,7 +88,7 @@ Rails.application.routes.draw do
   
   resources :notifications do
     collection do
-      put 'update_all'
+      patch 'update_all'
     end
   end
 
@@ -98,19 +100,19 @@ Rails.application.routes.draw do
 
   get 'audience/index', :as => :audience
   
-  match 'ties' => 'ties#index', :as => :ties
+  get 'ties' => 'ties#index', :as => :ties
   
-  match 'tags' => 'tags#index', :as => 'tags'
+  get 'tags' => 'tags#index', :as => 'tags'
 
-  match 'administrators' => 'administrators#index'
+  get 'administrators' => 'administrators#index'
   
   ##API###
-  match 'api/keygen' => 'api#create_key', :as => :api_keygen
-  match 'api/user/:id' => 'api#users', :as => :api_user
-  match 'api/me' => 'api#users', :as => :api_me
-  match 'api/me/home/' => 'api#activity_atom_feed', :format => 'atom', :as => :api_my_home
+  get 'api/keygen' => 'api#create_key', :as => :api_keygen
+  get 'api/user/:id' => 'api#users', :as => :api_user
+  get 'api/me' => 'api#users', :as => :api_me
+  get 'api/me/home/' => 'api#activity_atom_feed', :format => 'atom', :as => :api_my_home
 
-  match 'api/me/contacts' => 'contacts#index', :format => 'json', :as => :api_contacts
+  get 'api/me/contacts' => 'contacts#index', :format => 'json', :as => :api_contacts
   ##/API##
  
   #Background tasks

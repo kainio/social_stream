@@ -10,7 +10,7 @@ class MoveAvatars < ActiveRecord::Migration
     self.record_timestamps = false
 
     has_one :avatar,
-            conditions: { active: true },
+            -> { where({ active: true })},
             class_name: "AvatarMigration",
             foreign_key: :actor_id
     

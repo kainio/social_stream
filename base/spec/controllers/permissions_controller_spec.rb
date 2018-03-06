@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe PermissionsController do
   include SocialStream::TestHelpers::Controllers

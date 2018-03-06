@@ -1,47 +1,69 @@
-Factory.define :tie do |t|
-  t.association :contact
+FactoryBot.define do
+  factory :tie do |t|
+    t.association :contact
+  end
 end
 
 # User ties
 
-Factory.define :friend, :parent => :tie do |t|
-  t.after_build { |u| u.relation = u.sender.relation_custom('friend') }
+FactoryBot.define do
+  factory :friend, :parent => :tie do |t|
+    t.after(:build) { |u| u.relation = u.sender.relation_custom('friend') }
+  end
 end
 
-Factory.define :acquaintance, :parent => :tie do |t|
-  t.after_build { |u| u.relation = u.sender.relation_custom('acquaintance') }
+FactoryBot.define do 
+  factory :acquaintance, :parent => :tie do |t|
+    t.after(:build) { |u| u.relation = u.sender.relation_custom('acquaintance') }
+  end
 end
 
-Factory.define :public, :parent => :tie do |t|
-  t.after_build { |u| u.relation = Relation::Public.instance }
+FactoryBot.define do 
+  factory :public, :parent => :tie do |t|
+    t.after(:build) { |u| u.relation = Relation::Public.instance }
+  end
 end
 
-Factory.define :reject, :parent => :tie do |t|
-  t.after_build { |u| u.relation = Relation::Reject.instance }
+FactoryBot.define do 
+  factory :reject, :parent => :tie do |t|
+    t.after(:build) { |u| u.relation = Relation::Reject.instance }
+  end
 end
 
-Factory.define :follow, :parent => :tie do |t|
-  t.after_build { |u| u.relation = Relation::Follow.instance }
+FactoryBot.define do 
+  factory :follow, :parent => :tie do |t|
+    t.after(:build) { |u| u.relation = Relation::Follow.instance }
+  end
 end
 
 # Group ties
-Factory.define :g2u_tie, :parent => :tie do |t|
-  t.contact { |c| Factory(:group_contact) }
+FactoryBot.define do
+  factory :g2u_tie, :parent => :tie do |t|
+    t.contact { |c| FactoryBot.create(:group_contact) }
+  end
 end
 
-Factory.define :member, :parent => :g2u_tie do |t|
-  t.after_build { |u| u.relation = u.sender.relation_custom('member') }
+FactoryBot.define do
+  factory :member, :parent => :g2u_tie do |t|
+    t.after(:build) { |u| u.relation = u.sender.relation_custom('member') }
+  end
 end
 
-Factory.define :g2g_tie, :parent => :tie do |t|
-  t.contact { |c| Factory(:g2g_contact) }
+FactoryBot.define do
+  factory :g2g_tie, :parent => :tie do |t|
+    t.contact { |c| FactoryBot.create(:g2g_contact) }
+  end
 end
 
-Factory.define :partner, :parent => :g2g_tie do |t|
-  t.after_build { |u| u.relation = u.sender.relation_custom('partner') }
+FactoryBot.define do
+  factory :partner, :parent => :g2g_tie do |t|
+    t.after(:build) { |u| u.relation = u.sender.relation_custom('partner') }
+  end
 end
 
-Factory.define :group_public, :parent => :g2g_tie do |t|
-  t.after_build { |u| u.relation = Relation::Public.instance }
+FactoryBot.define do 
+  factory :group_public, :parent => :g2g_tie do |t|
+    t.after(:build) { |u| u.relation = Relation::Public.instance }
+  end
 end
 

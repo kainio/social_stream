@@ -1,5 +1,4 @@
 @mixin btn-primary
-  @include ie7-inline-block()
   padding: 3px 12px 2px
   margin-bottom: 0
   font-size: $baseFontSize
@@ -11,7 +10,6 @@
   *border: 0
   color: $gray
   background-image: none
-  @include ie7-restore-left-whitespace()
   @include box-shadow(inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05))
   @include transition(background 1s, color, 1s)
   @include border-radius(7px)
@@ -51,7 +49,6 @@
 
 
 @mixin btn-secundary
-  @include ie7-inline-block()
   padding: 4px 12px
   margin-bottom: 0
   font-size: $baseFontSize
@@ -63,7 +60,6 @@
   *border: 0
   color: $auxiliarColor
   background-image: none
-  @include ie7-restore-left-whitespace()
   @include box-shadow(inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05))
   @include transition(background 1s, color, 1s)
   @include border-radius(7px)

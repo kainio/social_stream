@@ -75,7 +75,7 @@ en:
       title:
         follow: '%{author} added %{activity_object} as contact'
         like: '%{author} likes %{activity_object}'
-        make-friend: '%{author} also added %{activity_object} as contact'
+        make_friend: '%{author} also added %{activity_object} as contact'
         post: '%{author} posted %{activity_object}'
         updated: '%{author} posted %{activity_object}'
     title: Activities
@@ -98,7 +98,7 @@ en:
           message: '%{name} is now your fan.'
       join:
         one: '%{sender} joined the %{title} %{thing}.'
-      make-friend:
+      make_friend:
         User:
           title: '%{subject} and %{contact} are now connected.'
           message: '%{name} also added you as contact.'

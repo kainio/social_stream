@@ -46,7 +46,8 @@ class Relation::Custom < Relation
             p.push(nil) if p.size == 1
 
             rels[name].permissions << 
-              Permission.find_or_create_by_action_and_object(*p)
+              
+              Permission.find_or_create_by(action: p[0],object: p[1])
           end 
         end
       end

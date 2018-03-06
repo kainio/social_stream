@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'profiles/show' do
   let(:user) { stub_model(User, { name: "Test User",

@@ -1,59 +1,59 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ActivityAction do
   context "a following contact" do
-    before do
-      @tie = Factory(:friend)
+    before :each do
+      @tie = FactoryBot.create(:friend)
     end
 
     it "should create follow action" do
       action = @tie.sender.action_to(@tie.receiver)
 
-      action.should be_present
-      action.should be_follow
+      expect(action).to be_present
+      expect(action).to be_follow
     end
 
     it "should remove follow action" do
       action = @tie.sender.action_to(@tie.receiver)
 
-      action.should be_present
+      expect(action).to be_present
 
       @tie.destroy
 
-      action.reload.should_not be_follow
+      expect(action.reload).to_not be_follow
     end
 
     describe "where posting to other owner" do
-      before do
-        @post = Factory(:post)
+      before :each do
+        @post = FactoryBot.create(:post)
       end
 
       it "should not be duplicated" do
-        @post.received_actions.count.should == 2
+        expect(@post.received_actions.count).to eq(2)
       end
 
       it "should initialize follower count" do
-        @post.reload.follower_count.should == 2
+        expect(@post.reload.follower_count).to eq(2)
       end
     end
 
     describe "where posting to self" do
       before do
-        @post = Factory(:self_post)
+        @post = FactoryBot.create(:self_post)
       end
 
       it "should not be duplicated" do
-        @post.received_actions.count.should == 1
+        expect(@post.received_actions.count).to eq(1)
       end
 
       it "should initialize follower count" do
-        @post.reload.follower_count.should == 1
+        expect(@post.reload.follower_count).to eq(1)
       end
     end
 
     describe "where building the post" do
-      before do
-        user = Factory(:user)
+      before :each do
+        user = FactoryBot.create(:user)
         @post = Post.new :text => "Testing",
                          :author => user,
                          :owner  => user,
@@ -62,7 +62,7 @@ describe ActivityAction do
       end
 
       it "should not be duplicated" do
-        @post.received_actions.count.should == 1
+        expect(@post.received_actions.count).to eq(1)
       end
     end
   end

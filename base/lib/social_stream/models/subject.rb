@@ -29,7 +29,7 @@ module SocialStream
         
         accepts_nested_attributes_for :profile
         
-        scope :alphabetic, joins(:actor).merge(Actor.alphabetic)
+        scope :alphabetic, ->{ joins(:actor).merge(Actor.alphabetic)}
 
         scope :letter, lambda{ |param|
           joins(:actor).merge(Actor.letter(param))
@@ -45,7 +45,7 @@ module SocialStream
           end
         }
 
-        scope :distinct_initials, joins(:actor).merge(Actor.distinct_initials)
+        scope :distinct_initials, ->{ joins(:actor).merge(Actor.distinct_initials)}
 
         scope :followed, lambda { 
           joins(:actor).
@@ -68,17 +68,16 @@ module SocialStream
         scope :recent, -> {
           order('groups.updated_at DESC')
         }
-  
-        define_index do
-          indexes actor.name, :sortable => true
-          indexes actor.email
-          indexes actor.slug
-          
-          has created_at
-          has updated_at
-          has Relation::Public.instance.id.to_s, :type => :integer, :as => :relation_ids
-          
-        end
+        # Not needed any more as of thinkin_sphinx >=3.0
+        #define_index do
+        #  indexes actor.name, :sortable => true
+        #  indexes actor.email
+        #  indexes actor.slug
+        #  
+        #  has created_at
+        #  has updated_at
+        #  has Relation::Public.instance.id.to_s, :type => :integer, :as => :relation_ids
+        #end
       end
       
       module ClassMethods

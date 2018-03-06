@@ -1,3 +1,4 @@
+
 # Hash deep merge
 require 'deep_merge'
 # Monkey patch Ruby on Rails
@@ -21,6 +22,7 @@ require 'mailboxer'
 require 'mailboxer/social_stream'
 # User authentication
 require 'devise'
+require 'devise-token_authenticatable'
 # Authorization
 require 'cancan'
 # REST controllers
@@ -48,7 +50,7 @@ require 'resque/server'
 require 'modernizr-rails'
 # Sphinx search engine
 require 'thinking-sphinx'
-require 'thinking-sphinx/social_stream'
+#require 'thinking-sphinx/social_stream'
 # Syntactically Awesome Stylesheets
 require 'sass-rails'
 # Bootstrap for Sass
@@ -59,9 +61,10 @@ require 'deface'
 require 'rails_autolink'
 # I18n-js
 require 'i18n-js'
-require 'i18n-js/social_stream-base'
+#require 'i18n-js/social_stream-base'
 # Strong parameters
-require 'strong_parameters'
+#require 'strong_parameters'
 # Flash messages
+require 'protected_attributes'
 require 'flashy'
 

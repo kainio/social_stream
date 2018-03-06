@@ -2,13 +2,14 @@ module SocialStream
   module Migrations
     class Base
       def initialize
-        require_old_migration 'acts-as-taggable-on', 'lib/generators/acts_as_taggable_on/migration/templates/active_record/migration'
+        @act_as_taggable_on_migration =  find_migration 'acts-as-taggable-on'
         @mailboxer_migration = find_migration 'mailboxer'
         @base_migration = find_migration 'social_stream-base'
       end
 
       def up
-        ActsAsTaggableOnMigration.up
+        ActiveRecord::Migrator.migrate @act_as_taggable_on_migration
+
 
         ActiveRecord::Migrator.migrate @mailboxer_migration
 
@@ -30,7 +31,7 @@ module SocialStream
         end
 
         begin
-          ActsAsTaggableOnMigration.down
+          ActiveRecord::Migrator.migrate @act_as_taggable_on_migration, 0
         rescue
           puts "WARNING: ActsAsTaggableOnMigration failed to rollback"
         end

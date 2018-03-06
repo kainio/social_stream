@@ -47,8 +47,9 @@ class ActivityObject
                source:  :property
 
       has_one :main_activity_object_property,
-              class_name: "ActivityObjectProperty",
-              conditions: { main: true }
+              ->{where({ main: true })},
+              class_name: "ActivityObjectProperty"
+              
       has_one :main_property_object,
               through: :main_activity_object_property,
               source:  :property
@@ -63,9 +64,9 @@ class ActivityObject
                source:  :activity_object
 
       has_many :main_activity_object_holds,
+              ->{where({ main: true })},
                class_name:  "ActivityObjectProperty",
-               foreign_key: :property_id,
-               conditions:  { main: true }
+               foreign_key: :property_id
 
       has_many :main_holder_objects,
                through: :main_activity_object_holds,
@@ -82,25 +83,26 @@ class ActivityObject
 
           attr_reader "add_holder_#{ o }_id" # attr_reader "add_holder_post_id"
 
-          has_many o.to_s.tableize,             # has_many posts,
+          has_many o.to_s.tableize.to_sym,             # has_many posts,
+                   ->{where(conditions)},
                    through: :property_objects,  #          through: :property_objects,
-                   source:  source,             #          source:  :post
-                   conditions: conditions
+                   source:  source              #          source:  :post
+                   
 
-          has_one  "main_#{ o }",                  # has_one :main_post,
+          has_one  "main_#{ o }".to_sym,                  # has_one :main_post,
+                   ->{where(conditions)},
                    through: :main_property_object, #         through: :main_property_object,
-                   source: source,                 #         source:  :post
-                   conditions: conditions
+                   source: source                  #         source:  :post
 
-          has_many "holder_#{ o.to_s.tableize }",  # has_many :holder_posts,
+          has_many "holder_#{ o.to_s.tableize }".to_sym,  # has_many :holder_posts,
+                   ->{where(conditions)},
                    through: :holder_objects,       #          through: :holder_objects,
-                   source: source,                 #          source:  :post
-                   conditions: conditions
+                   source: source                  #          source:  :post
 
-          has_many "main_holder_#{ o.to_s.tableize }", # has_many :main_holder_posts,
+          has_many "main_holder_#{ o.to_s.tableize }".to_sym, # has_many :main_holder_posts,
+                   ->{where(conditions)},
                    through: :main_holder_objects,      #          through: :main_holder_objects,
-                   source:  source,                    #          source:  :post
-                   conditions: conditions
+                   source:  source                     #          source:  :post
 
         end
       end

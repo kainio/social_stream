@@ -7,10 +7,11 @@ class Post < ActiveRecord::Base
 
   alias_attribute :text, :description
   validates :text, presence: true
-
-  define_index do
-    activity_object_index
-  end
+  
+  #not needed any more by thinkingsphinx
+  #define_index do
+  # activity_object_index
+  #end
 
   def title
     description.truncate(30, :separator =>' ')

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe PostsController do
   include SocialStream::TestHelpers
@@ -7,8 +7,8 @@ describe PostsController do
   render_views
 
   describe "authorizing" do
-    before do
-      @user = Factory(:user)
+    before :each do
+      @user = FactoryBot.create(:user)
       sign_in @user
     end
 
@@ -18,7 +18,7 @@ describe PostsController do
           contact = @user.contact_to!(@user)
           relation = @user.relation_customs.sort.first
           model_assigned_to @user.contact_to!(@user), relation
-          @current_model = Factory(:post, :author_id => @user.actor_id,
+          @current_model = FactoryBot.create(:post, :author_id => @user.actor_id,
                                    :owner_id  => @user.actor_id,
                                    :user_author_id => @user.actor_id,
                                    :relation_ids => Array(relation.id))
@@ -34,7 +34,7 @@ describe PostsController do
 
           resource = assigns(model_sym)
 
-          model_count.should eq(count - 1)
+          expect(model_count).to eq(count - 1)
         end
       end
 
@@ -43,7 +43,7 @@ describe PostsController do
           contact = @user.contact_to!(@user)
           relation = @user.relation_customs.sort.last
           model_assigned_to @user.contact_to!(@user), relation
-          @current_model = Factory(:post, :author_id => @user.actor_id,
+          @current_model = FactoryBot.create(:post, :author_id => @user.actor_id,
                                    :owner_id  => @user.actor_id,
                                    :user_author_id => @user.actor_id,
                                    :relation_ids => Array(relation.id))
@@ -59,7 +59,7 @@ describe PostsController do
           contact = @user.contact_to!(@user)
           relation = Relation::Public.instance
           model_assigned_to @user.contact_to!(@user), relation
-          @current_model = Factory(:post, :author_id => @user.actor_id,
+          @current_model = FactoryBot.create(:post, :author_id => @user.actor_id,
                                    :owner_id  => @user.actor_id,
                                    :user_author_id => @user.actor_id)
         end
@@ -72,10 +72,10 @@ describe PostsController do
 
     describe "post to friend" do
       before do
-        friend = Factory(:friend, :contact => Factory(:contact, :receiver => @user.actor)).sender
+        friend = FactoryBot.create(:friend, :contact => FactoryBot.create(:contact, :receiver => @user.actor)).sender
 
         model_assigned_to @user.contact_to!(friend), friend.relation_custom('friend')
-        @current_model = Factory(:post, :author_id => @user.actor_id,
+        @current_model = FactoryBot.create(:post, :author_id => @user.actor_id,
                                  :owner_id  => friend.id,
                                  :user_author_id => @user.actor_id)
       end
@@ -86,7 +86,7 @@ describe PostsController do
 
     describe "post to acquaintance" do
       before do
-        ac = Factory(:acquaintance, :contact => Factory(:contact, :receiver => @user.actor)).sender
+        ac = FactoryBot.create(:acquaintance, :contact => FactoryBot.create(:contact, :receiver => @user.actor)).sender
 
         model_assigned_to @user.contact_to!(ac), ac.relation_custom('acquaintance')
       end
@@ -96,7 +96,7 @@ describe PostsController do
 
     describe "post from other user" do
       before do
-        @current_model = Factory(:post)
+        @current_model = FactoryBot.create(:post)
       end
 
 
@@ -105,7 +105,7 @@ describe PostsController do
 
     describe "posts represented group" do
       before do
-        @group = Factory(:member, :contact => Factory(:group_contact, :receiver => @user.actor)).sender_subject
+        @group = FactoryBot.create(:member, :contact => FactoryBot.create(:group_contact, :receiver => @user.actor)).sender_subject
       end
 
       describe "with member relation" do
@@ -114,7 +114,7 @@ describe PostsController do
           relation = @group.relation_custom('member')
 
           model_assigned_to contact, relation
-          @current_model = Factory(:post, :author_id => contact.sender.id,
+          @current_model = FactoryBot.create(:post, :author_id => contact.sender.id,
                                    :owner_id  => contact.receiver.id,
                                    :user_author_id => contact.sender.id,
                                    :relation_ids => Array(relation.id))
@@ -135,7 +135,7 @@ describe PostsController do
             contact = @group.contact_to!(@group)
             relation = @group.relation_customs.sort.first
             model_assigned_to contact, relation
-            @current_model = Factory(:post, :author_id => contact.sender.id,
+            @current_model = FactoryBot.create(:post, :author_id => contact.sender.id,
                                      :owner_id  => contact.receiver.id,
                                      :user_author_id => contact.sender.id,
                                      :relation_ids => Array(relation.id))
@@ -151,7 +151,7 @@ describe PostsController do
             contact = @group.contact_to!(@group)
             relation = @group.relation_customs.sort.last
             model_assigned_to contact, relation
-            @current_model = Factory(:post, :author_id => contact.sender.id,
+            @current_model = FactoryBot.create(:post, :author_id => contact.sender.id,
                                      :owner_id  => contact.receiver.id,
                                      :user_author_id => contact.sender.id,
                                      :relation_ids => Array(relation.id))
@@ -167,7 +167,7 @@ describe PostsController do
             contact = @group.contact_to!(@group)
             relation = Relation::Public.instance
             model_assigned_to contact, relation
-            @current_model = Factory(:post,  :author_id => contact.sender.id,
+            @current_model = FactoryBot.create(:post,  :author_id => contact.sender.id,
                                      :owner_id  => contact.receiver.id,
                                      :user_author_id => contact.sender.id,
                                      :relation_ids => Array(relation.id))
@@ -182,7 +182,7 @@ describe PostsController do
 
     context "creating post in group's wall" do
       before do
-        @tie = Factory(:member)
+        @tie = FactoryBot.create(:member)
       end
 
       it "should assign activity to member" do
@@ -212,31 +212,31 @@ describe PostsController do
         post.should be_valid
         post.post_activity.relations.should include(@tie.relation)
 
-        response.should be_success
+        expect(response).to be_success
       end
     end
 
     context "creating public post" do
-      before do
-        @post = Factory(:public_post)
+      before :each do
+        @post = FactoryBot.create(:public_post)
       end
 
       it "should render" do
         get :show, :id => @post.to_param
 
-        response.should be_success
+        expect(response).to be_success
       end
     end
 
     describe "to friend on representation change" do
       before do
-        @post = Factory(:post)
+        @post = FactoryBot.create(:post)
 
         @user = @post.post_activity.sender_subject
 
-        @group = Factory(:member, :contact => Factory(:g2g_contact, :receiver => @user.actor)).sender_subject
+        @group = FactoryBot.create(:member, :contact => FactoryBot.create(:g2g_contact, :receiver => @user.actor)).sender_subject
 
-        Factory(:friend, :contact => Factory(:g2g_contact, :sender => @user.actor))
+        FactoryBot.create(:friend, :contact => FactoryBot.create(:g2g_contact, :sender => @user.actor))
 
         sign_in @user
       end

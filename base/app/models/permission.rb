@@ -40,7 +40,7 @@ class Permission < ActiveRecord::Base
   has_many :relations, :through => :relation_permissions
 
   %w(represent follow).each do |p|
-    scope p, where(:action => p) # scope :represent, where(:action => 'represent')
+    scope p, -> { where(:action => p) } # scope :represent, where(:action => 'represent')
   end
 
   class << self
@@ -78,7 +78,7 @@ class Permission < ActiveRecord::Base
     # Finds or creates in the database the instances of the permissions described in
     # {ary} by arrays of [ action, object ]
     def instances ary
-      ary.map{ |p| find_or_create_by_action_and_object *p }
+      ary.map{ |p| find_or_create_by(action: p[0],object: p[1])}
     end
   end
 

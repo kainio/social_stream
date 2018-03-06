@@ -38,7 +38,7 @@ class Activity < ActiveRecord::Base
 
   paginates_per 10
 
-  belongs_to :activity_verb
+  belongs_to :activity_verb, :inverse_of => :activities, :foreign_key => :activity_verb_id, dependent: :destroy
 
   belongs_to :author,
              :class_name => "Actor"
@@ -212,7 +212,7 @@ class Activity < ActiveRecord::Base
   # The title for this activity in the stream
   def title view
     case verb
-    when "follow", "make-friend", "like"
+    when "follow", "make_friend", "like"
       I18n.t "activity.verb.#{ verb }.#{ receiver.subject_type }.title",
       :subject => view.link_name(sender_subject),
       :contact => view.link_name(receiver_subject)
@@ -259,7 +259,7 @@ class Activity < ActiveRecord::Base
 
   def notify
     return true unless notificable?
-    #Avaible verbs: follow, like, make-friend, post, update, join
+    #Avaible verbs: follow, like, make_friend, post, update, join
 
     case
       when direct_object.is_a?(Comment)
@@ -275,7 +275,7 @@ class Activity < ActiveRecord::Base
       when ['follow'].include?(verb)
         send_mail = receiver.subject.notification_settings[:someone_adds_me_as_a_contact]
         receiver.notify(notification_subject, "Youre not supposed to see this", self, true, nil, send_mail)
-      when ['make-friend'].include?(verb)
+      when ['make_friend'].include?(verb)
         send_mail = receiver.subject.notification_settings[:someone_confirms_my_contact_request]
         receiver.notify(notification_subject, "Youre not supposed to see this", self, true, nil, send_mail)
       when ['post', 'update', 'join'].include?(verb)
@@ -364,7 +364,7 @@ class Activity < ActiveRecord::Base
               :sender => sender_name,
               :who => I18n.t('notification.who.'+ receiver.subject.class.to_s.underscore,
                              :name => receiver_name))
-      when 'make-friend'
+      when 'make_friend'
         I18n.t('notification.makefriend.'+ receiver.subject.class.to_s.underscore, 
               :sender => sender_name,
               :who => I18n.t('notification.who.'+ receiver.subject.class.to_s.underscore,
@@ -389,7 +389,7 @@ class Activity < ActiveRecord::Base
       
       else
         t('notification.default')
-      end
+    end
   end
   
   #Send notifications to actors based on proximity, interest and permissions
@@ -428,7 +428,7 @@ class Activity < ActiveRecord::Base
   #
   # Destroy any Notification linked with the activity
   def delete_notifications
-    Notification.with_object(self).each do |notification|
+    Mailboxer::Notification.with_object(self).each do |notification|
       notification.destroy
     end
   end
