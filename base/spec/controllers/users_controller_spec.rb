@@ -5,44 +5,44 @@ describe UsersController do
 
   describe "when Anonymous" do
     it "should render show" do
-      get :show, :id => Factory(:friend, :receiver => Factory(:group).actor).sender_subject.to_param
+      get :show, :id => FactoryBot.create(:friend, :receiver => FactoryBot.create(:group).actor).sender_subject.to_param
 
-      assert_response :success
+      expect(response).to be_success
     end
 
     context "with fans" do
       before do
-        @user = Factory(:fan_activity).receiver_subject
+        @user = FactoryBot.create(:fan_activity).receiver_subject
       end
 
       it "should render show" do
         get :show, :id => @user.to_param
 
-        response.should be_success
+        expect(response).to be_success
       end
     end
 
     it "should render show with public activity" do
-      activity = Factory(:public_activity)
+      activity = FactoryBot.create(:public_activity)
 
       get :show, :id => activity.receiver.to_param
 
-      response.should be_success
-      response.body.should =~ /activity_#{ activity.id }/
+      expect(response).to be_success
+      expect(response.body).to match(/activity_#{ activity.id }/)
     end
 
     it "should not render edit" do
       begin
-        get :edit, :id => Factory(:user).to_param
+        get :edit, :id => FactoryBot.create(:user).to_param
 
-        response.should redirect_to(:new_user_session)
+        expect(response).to redirect_to(:new_user_session)
       end
     end
   end
 
   describe "when authenticated" do
     before do
-      @user = Factory(:friend, :receiver => Factory(:group).actor).sender_subject
+      @user = FactoryBot.create(:friend, :receiver => FactoryBot.create(:group).actor).sender_subject
 
       sign_in @user
     end
@@ -50,35 +50,35 @@ describe UsersController do
     it "should render self page" do
       get :show, :id => @user.to_param
 
-      assert_response :success
+      expect(response).to be_success
     end
 
     it "should render other's page" do
-      get :show, :id => Factory(:user).to_param
+      get :show, :id => FactoryBot.create(:user).to_param
 
-      assert_response :success
+      expect(response).to be_success
     end
 
     it "should render other's page with activity" do
-      tie = Factory(:friend, :receiver => @user.actor)
+      tie = FactoryBot.create(:friend, :receiver => @user.actor)
       friend = tie.sender
-      Factory(:post, :author_id  => @user.actor_id,
+      FactoryBot.create(:post, :author_id  => @user.actor_id,
                      :owner_id   => friend.id,
                      :user_author_id => @user.actor_id,
                      :relation_ids => Array(tie.relation_id))
 
       get :show, :id => friend.to_param
 
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "should not render other's edit" do
       begin
-        get :edit, :id => Factory(:user).to_param
+        get :edit, :id => FactoryBot.create(:user).to_param
 
-        assert false
+        expect(response).to be false
       rescue CanCan::AccessDenied 
-        assert true
+        expect(response).to be_truthy
       end
     end
   end
