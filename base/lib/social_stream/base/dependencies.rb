@@ -27,7 +27,8 @@ require 'devise-token_authenticatable'
 require 'cancan'
 # REST controllers
 require 'inherited_resources'
-require 'inherited_resources/social_stream'
+#no more needed
+#require 'inherited_resources/social_stream'
 # Scopes in controllers
 require 'has_scope'
 # Logo attachments

@@ -7,7 +7,7 @@ describe ContactsController do
   render_views
 
   before(:all) do
-    @tie = Factory(:friend)
+    @tie = FactoryBot.create(:friend)
     @user = @tie.sender_subject
   end
 
@@ -15,19 +15,19 @@ describe ContactsController do
     it "should render index" do
       get 'index', user_id: @user.to_param
 
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
   context "authenticated" do
-    before do
+    before(:each) do
       sign_in @user
     end
 
     it "should render index" do
       get 'index'
 
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -36,7 +36,7 @@ describe ContactsController do
     
     get 'pending'
 
-    response.should be_success
+    expect(response).to be_success
   end
 
   it "should render update" do
@@ -45,17 +45,17 @@ describe ContactsController do
     put :update, :id => @tie.contact_id,
                  :contact => { "relation_ids" => [ @user.relations.last.id ] }
 
-    response.should redirect_to(@tie.receiver_subject)
-    @user.reload.
+    expect(response).to redirect_to(@tie.receiver_subject)
+    expect(@user.reload.
       sent_ties.
       merge(Contact.received_by(@tie.receiver)).
-      first.relation.should == @user.relations.last
+      first.relation).to eq(@user.relations.last)
   end
 
   it "should create contact" do
     sign_in @user
 
-    group = Factory(:group)
+    group = FactoryBot.create(:group)
     contact = @user.contact_to!(group)
     
 
@@ -63,17 +63,17 @@ describe ContactsController do
                  :contact => { :relation_ids => [ @user.relations.last.id ],
                                :message => "Testing" }
 
-    response.should redirect_to(contact.receiver_subject)
-    contact.reload.
+    expect(response).to redirect_to(contact.receiver_subject)
+    expect(contact.reload.
       ties.
-      first.relation.
-      should == @user.relations.last
+      first.relation).
+      to eq(@user.relations.last)
   end
 
   it "should create contact with several relations" do
     sign_in @user
 
-    group = Factory(:group)
+    group = FactoryBot.create(:group)
     contact = @user.contact_to!(group)
     # Initialize inverse contact
     contact.inverse!
@@ -84,13 +84,13 @@ describe ContactsController do
                  :contact => { :relation_ids => relations.map(&:id),
                                :message => "Testing" }
 
-    response.should redirect_to(contact.receiver_subject)
+    expect(response).to redirect_to(contact.receiver_subject)
 
-    contact.reload.
+    expect(contact.reload.
       ties.
       map(&:relation).
-      map(&:id).sort.
-      should == relations.map(&:id).sort
+      map(&:id).sort).
+      to eq(relations.map(&:id).sort)
   end
 
   context "with reflexive contact" do
@@ -104,13 +104,13 @@ describe ContactsController do
       put :update, :id => @contact,
                    :contact => { "relation_ids" => [ @user.relations.last.id ] }
 
-      response.should redirect_to(home_path)
+      expect(response).to redirect_to(home_path)
     end
   end
 
   context "representing a group" do
     before(:all) do
-      @group = Factory(:member, :contact => Factory(:group_contact, :receiver => @user.actor)).sender_subject
+      @group = FactoryBot.create(:member, :contact => FactoryBot.create(:group_contact, :receiver => @user.actor)).sender_subject
     end
 
     before do
@@ -119,14 +119,14 @@ describe ContactsController do
     end
 
     it "should add other user as member" do
-      other_user = Factory(:user)
+      other_user = FactoryBot.create(:user)
       contact = @group.contact_to!(other_user)
 
       put :update, :id => contact.id, :contact => { :relation_ids => @group.relation_customs.map(&:id) }
 
-      response.should redirect_to(other_user)
+      expect(response).to redirect_to(other_user)
 
-      @group.receivers.should include(other_user.actor)
+      expect(@group.receivers).to include(other_user.actor)
     end
   end
 end

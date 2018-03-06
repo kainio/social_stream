@@ -24,4 +24,6 @@ You have also used finder options. These are also deprecated. Please build a sco
 
 [i18n] upgrade the configuration of translations vendor/assets/javascripts/i18n/translations.js.erb
 
-
+[Learn] inherited_resources gem
+[test] should uncomment spec/controllers/groups_controller_spec.rb:154 and expect the sec to pass
+[current failling spec] spec/controllers/notifications_controller_spec.rb

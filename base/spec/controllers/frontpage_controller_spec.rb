@@ -5,7 +5,7 @@ describe FrontpageController do
 
   it "should render index" do
     get :index
-    expect(response).to  be_success
+    expect(response).to be_success
   end
 end
 

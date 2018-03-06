@@ -4,7 +4,7 @@ module SocialStream
       extend ActiveSupport::Concern
 
       included do
-        before_filter :set_author_ids, only: [ :new, :create ]
+        before_action :set_author_ids, only: [ :new, :create ]
       end
 
       private

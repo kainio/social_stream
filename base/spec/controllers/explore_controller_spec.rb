@@ -7,7 +7,7 @@ describe ExploreController do
     it "should render" do
       get :index
 
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -15,7 +15,7 @@ describe ExploreController do
     it "should render" do
       get :index, section: :participants
 
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -23,19 +23,19 @@ describe ExploreController do
     it "should render" do
       get :index, section: :resources
 
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
   describe 'timeline' do
-    before do
-      Factory(:public_activity)
+    before(:each) do
+      FactoryBot.create(:public_activity)
     end
 
     it "should render" do
       get :index, section: 'timeline'
 
-      response.should be_success
+      expect(response).to be_success
     end
   end
 end

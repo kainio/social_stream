@@ -18,7 +18,7 @@
     <%= contact_button(contact) %>
   </div>
   <div class="x">
-        <%= link_to 'X', contact_path(contact, destroy_params), method: :delete, remote: true, confirm: t('contact.confirm_delete') %>
+        <%= link_to 'X', contact_path(contact, destroy_params), method: :delete, remote: true, data: {confirm: t('contact.confirm_delete')} %>
       </div>
 </section>
 

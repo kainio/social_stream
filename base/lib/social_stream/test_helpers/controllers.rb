@@ -96,8 +96,11 @@ module SocialStream
 
           resource = assigns(demodulized_model_sym)
 
-          resource.should_receive(:update_attributes).with(attributes)
-          assert resource.valid?
+          expect(resource).to receive(:update_attributes).with(attributes)
+          
+
+          expect(resource).to be_valid
+
           expect(response).to redirect_to(resource)
         end
       end
@@ -112,7 +115,7 @@ module SocialStream
           resource = assigns(demodulized_model_sym)
           
           if resource.respond_to? :update_attributes
-            resource.should_not_receive(:update_attributes)
+            expect(resource).to_not receive(:update_attributes)
           end
         end
       end
@@ -124,7 +127,7 @@ module SocialStream
 
           resource = assigns(demodulized_model_sym)
 
-          model_count.should eq(count - 1)
+          expect(model_count).to eq(count - 1)
         end
       end
 
@@ -138,7 +141,7 @@ module SocialStream
 
           resource = assigns(demodulized_model_sym)
 
-          model_count.should eq(count)
+          expect(model_count).to eq(count)
         end
       end
 

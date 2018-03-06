@@ -8,47 +8,47 @@ describe HomeController do
   describe "when Anonymous" do
     it "should redirect to login" do
       get :index
-      response.should redirect_to(new_user_session_path)
+      expect(response).to redirect_to(new_user_session_path)
     end
   end
 
   describe "when authenticated" do
-    before do
-      @user = Factory(:user)
+    before(:each) do
+      @user = FactoryBot.create(:user)
       sign_in @user
     end
 
     it "should render" do
       get :index
 
-      response.should be_success
-      response.body.should =~ /new_post/
+      expect(response).to be_success
+      expect(response.body).to match(/new_post/)
     end
 
     context "with a group" do
-      before do
-        Factory(:friend,
-                :contact => Factory(:g2g_contact, :sender => @user.actor))
+      before(:each) do
+        FactoryBot.create(:friend,
+                :contact => FactoryBot.create(:g2g_contact, :sender => @user.actor))
       end
 
       it "should render" do
         get :index
 
-        response.should be_success
-        response.body.should =~ /new_post/
+        expect(response).to be_success
+        expect(response.body).to match(/new_post/)
       end
     end
 
     describe "when representing" do
-      before do
-        @represented = represent(Factory(:group))
+      before(:each) do
+        @represented = represent(FactoryBot.create(:group))
       end
 
       it "should render represented home" do
         get :index
 
-        assert_response :success
-        assigns(:current_subject).should == @represented
+        expect(response).to be_success
+        expect(assigns(:current_subject)).to eq(@represented)
       end
     end
   end

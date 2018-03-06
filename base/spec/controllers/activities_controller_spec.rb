@@ -5,11 +5,11 @@ describe ActivitiesController do
     it "should redirecto to activity object" do
       id = 3
       activity = double("activity")
-      post = Factory(:post)
+      post = FactoryBot.create(:post)
 
-      activity.should_receive(:direct_object) { post }
+      expect(activity).to receive(:direct_object) { post }
 
-      Activity.should_receive(:find).with(id.to_s) { activity }
+      expect(Activity).to receive(:find).with(id.to_s) { activity }
 
       get :show, id: id
     end

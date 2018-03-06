@@ -8,17 +8,17 @@ describe AudienceController do
 
   context "with activity" do
     before :all do
-      @activity = Factory(:activity)
+      @activity = FactoryBot.create(:activity)
     end
 
     it "should not be redered to public" do
       get :index, :activity_id => @activity.id, :format => :js
 
-      response.should redirect_to(:new_user_session)
+      expect(response).to redirect_to(:new_user_session)
     end
 
     it "should not be rendered to anyone" do
-      sign_in Factory(:user)
+      sign_in FactoryBot.create(:user)
 
       begin
         get :index, :activity_id => @activity.id, :format => :js
@@ -34,7 +34,7 @@ describe AudienceController do
 
       get :index, :activity_id => @activity.id, :format => :js
 
-      response.should be_success
+      expect(response).to be_success
     end
   end
 end
