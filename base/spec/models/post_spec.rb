@@ -1,32 +1,32 @@
 require 'rails_helper'
 
 describe Post do
-  before do
-    @post = Factory(:post)
+  before(:each) do
+    @post = FactoryBot.create(:post)
     @post_activity_object = @post.activity_object
     @post_activity = @post.post_activity
   end 
 
   describe "with like activity" do
-    before do
-      @like_activity = Factory(:like_activity, :parent => @post_activity)
+    before(:each) do
+      @like_activity = FactoryBot.create(:like_activity, :parent => @post_activity)
     end
 
     describe "when destroying" do
-      before do
+      before(:each) do
         @post.try(:destroy)
       end
 
       it "should also destroy its activity_object" do
-        assert_nil ActivityObject.find_by_id(@post_activity_object.id)
+        expect(ActivityObject.find_by_id(@post_activity_object.id)).to be_nil
       end
 
       it "should also destroy its post_activity" do
-        assert_nil Activity.find_by_id(@post_activity.id)
+        expect(Activity.find_by_id(@post_activity.id)).to be_nil
       end
 
       it "should also destroy its children like activity" do
-        assert_nil Activity.find_by_id(@like_activity.id)
+        expect(Activity.find_by_id(@like_activity.id)).to be_nil
       end
     end
   end
@@ -34,7 +34,7 @@ describe Post do
   describe 'with default SocialStream.custom_relations' do
 
     it "should allow create to friend" do
-      tie = Factory(:friend)
+      tie = FactoryBot.create(:friend)
 
       post = Post.new :text => "testing",
         :author_id => tie.receiver.id,
@@ -43,11 +43,11 @@ describe Post do
 
       ability = Ability.new(tie.receiver_subject)
 
-      ability.should be_able_to(:create, post)
+      expect(ability).to be_able_to(:create, post)
     end
 
     it "should fill relation" do
-      tie = Factory(:friend)
+      tie = FactoryBot.create(:friend)
 
       post = Post.new :text => "testing",
         :author_id => tie.receiver.id,
@@ -56,27 +56,27 @@ describe Post do
 
       post.save!
 
-      post.post_activity.relations.should include(tie.relation)
+      expect(post.post_activity.relations).to include(tie.relation)
     end
 
     describe "a new post" do
-      before do
-        @user = Factory(:user)
+      before(:each) do
+        @user = FactoryBot.create(:user)
         @post = Post.create!(:text => "test",
                              :author_id => @user.actor_id)
       end
 
       it "should be shared with user relations" do
-        @post.relation_ids.sort.should eq(@user.relation_ids.sort)
+        expect(@post.relation_ids.sort).to eq(@user.relation_ids.sort)
       end
     end
   end
 
   describe "authored_by" do
     it "should work" do
-      post = Factory(:post)
+      post = FactoryBot.create(:post)
 
-      Post.authored_by(post.author).should include(post)
+      expect(Post.authored_by(post.author)).to include(post)
     end
   end
 end
