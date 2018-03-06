@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Relation::Follow do
   it "should have permissions" do
-    Relation::Follow.instance.permissions.should include(Permission.find_or_create_by_action_and_object('follow', nil))
+    expect(Relation::Follow.instance.permissions).to include(Permission.find_or_create_by(action: 'follow', object: nil))
   end
 end
 
