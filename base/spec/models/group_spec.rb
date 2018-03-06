@@ -1,28 +1,28 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Group do
   it "should save description" do
-    user = Factory(:user)
+    user = FactoryBot.create(:user)
 
     g = Group.create :name => "Test",
                      :description => "Testing description",
                      :author_id => user.actor.id,
                      :user_author_id => user.actor.id
 
-    g.reload.description.should be_present
+    expect(g.reload.description).to be_present
   end
 
   it "should have activity_object" do
-    Factory(:group).activity_object.should be_present
+    expect(FactoryBot.create(:group).activity_object).to be_present
   end
 
   it "should save tag list" do
-    g = Factory(:group)
+    g = FactoryBot.create(:group)
 
     g.tag_list = "bla, ble"
     g.save!
 
-    g.reload.tag_list.should be_present
+    expect(g.reload.tag_list).to be_present
   end
 end
 

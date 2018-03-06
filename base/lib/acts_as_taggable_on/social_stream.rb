@@ -35,6 +35,14 @@ module ActsAsTaggableOn::Taggable::Core::ClassMethods
      )
    end
  end
+ 
+ def preserve_tag_order?
+   false
+ end
+ 
+ def preserve_tag_order
+   false
+ end
 end
 
 module ActsAsTaggableOn::Taggable::Core::InstanceMethods
