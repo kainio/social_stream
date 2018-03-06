@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe User do
-  before do
+  before(:each) do
     @user = FactoryBot.create(:user)
   end
 
@@ -10,28 +10,28 @@ describe User do
   end
 
   context "member of a group" do
-    before do
+    before(:each) do
       tie = FactoryBot.create(:member, :contact => FactoryBot.create(:group_contact, :receiver => @user.actor))
       @group = tie.sender_subject
     end
 
     context "without accept the group" do
       it "should not represent" do
-        @user.represented.should_not include(@group)
+        expect(@user.represented).to_not include(@group)
       end
     end
 
     context "accepting the group" do
-      before do
+      before(:each) do
         FactoryBot.create(:friend, :contact => @user.contact_to!(@group))
       end
 
       it "should represent" do
-        @user.represented.should include(@group)
+        expect(@user.represented).to include(@group)
       end
 
       context "and a second group" do
-        before do
+        before(:each) do
           @second_group =
             FactoryBot.create(:member,
                     :contact => FactoryBot.create(:group_contact,
@@ -41,8 +41,8 @@ describe User do
         end
 
         it "should represent both groups" do
-          @user.represented.should include(@group)
-          @user.represented.should include(@second_group)
+          expect(@user.represented).to include(@group)
+          expect(@user.represented).to include(@second_group)
         end
       end
     end
@@ -56,7 +56,7 @@ describe User do
 
     context "without accept the group" do
       it "should not represent" do
-        @user.represented.should_not include(@group)
+        expect(@user.represented).to_not include(@group)
       end
     end
 
@@ -66,7 +66,7 @@ describe User do
       end
 
       it "should not represent" do
-        @user.represented.should_not include(@group)
+        expect(@user.represented).to_not include(@group)
       end
     end
   end
@@ -89,13 +89,13 @@ describe User do
       end
 
       it "should not represent" do
-        @user.represented.should_not include(@group)
+        expect(@user.represented).to_not include(@group)
       end
     end
   end
 
   it "should have activity object" do
-    FactoryBot.create(:user).activity_object.should be_present
+    expect(FactoryBot.create(:user).activity_object).to be_present
   end
 
   it "should update password" do
@@ -103,7 +103,7 @@ describe User do
     user.password = "testing321"
     user.password_confirmation = "testing321"
 
-    assert user.save
+    expect(user.save).to be true
   end
 end
 
