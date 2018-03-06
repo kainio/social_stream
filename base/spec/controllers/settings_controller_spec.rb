@@ -5,37 +5,39 @@ describe SettingsController do
   render_views
 
   before do
-    @user = Factory(:user)
+    @user = FactoryBot.create(:user)
     @actor = @user.actor
     sign_in @user
   end
 
   it "should render index" do
     get :index
-    assert_response :success
+    expect(response).to be_success
   end
 
   it "should render index after update_all" do
     put :update_all
-    response.should redirect_to(:settings)
+    expect(response).to redirect_to(:settings)
   end
 
   describe "Notification settings" do
     it "update notification email settings to Never" do
       @actor.update_attributes(:notify_by_email => true)
-      @actor.notify_by_email.should==true
+      expect(@actor.notify_by_email).to be true
+      
       put :update_all, :settings_section => "notifications", :notify_by_email => "never"
       @actor.reload
-      @actor.notify_by_email.should==false
+      expect(@actor.notify_by_email).to be false
 
     end
 
     it "update notification email settings to Always" do
       @actor.update_attributes(:notify_by_email => false)
-      @actor.notify_by_email.should==false
+      expect(@actor.notify_by_email).to be false
+      
       put :update_all, :settings_section => "notifications", :notify_by_email => "always"
       @actor.reload
-      @actor.notify_by_email.should==true
+      expect(@actor.notify_by_email).to be true
     end
   end
 end

@@ -6,7 +6,7 @@
   </header>
   
   <div class="content settings_content collapse" id="cancel_account_content">
-    Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>
+    Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { :confirm => "Are you sure?" }, :method => :delete %>
   </div>
 
 </div>
