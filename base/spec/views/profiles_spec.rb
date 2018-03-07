@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'profiles/show' do
+describe 'profiles/show', pending: true do
   let(:user) { stub_model(User, { name: "Test User",
                                   email: "test-user@test.com",
                                   language: 'en',

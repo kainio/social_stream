@@ -16,7 +16,9 @@ class ActivityObject < ActiveRecord::Base
   supertype_of :object
 
   acts_as_taggable
-
+  
+  before_destroy :destroy_post_activity
+  
   has_many :activity_object_audiences, :dependent => :destroy
   has_many :relations, :through => :activity_object_audiences
 
@@ -242,6 +244,10 @@ class ActivityObject < ActiveRecord::Base
   end
 
   private
+  
+  def destroy_post_activity
+    post_activity.destroy if post_activity
+  end
 
   def fill_owner_id
     return if owner_id.present? || author_id.blank?

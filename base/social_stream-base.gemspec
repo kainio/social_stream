@@ -85,6 +85,8 @@ Gem::Specification.new do |s|
 
   # Specs
   s.add_development_dependency('rspec-rails', '~> 3.7.2')
+  s.add_development_dependency('rspec-activemodel-mocks')
+
   # Fixtures
   s.add_development_dependency('factory_bot_rails','~> 4.8.2')
   # Population
