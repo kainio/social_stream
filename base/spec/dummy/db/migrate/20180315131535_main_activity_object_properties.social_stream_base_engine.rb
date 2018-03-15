@@ -11,7 +11,7 @@ class MainActivityObjectProperties < ActiveRecord::Migration
     
     ActivityObjectProperty.reset_column_information
 
-    APMigration.where(type: 'ActivityObjectProperty::Poster').all.each do |a|
+    APMigration.where(type: 'ActivityObjectProperty::Poster').to_a.each do |a|
       a.update_attributes! main: true,
                            type: nil
     end

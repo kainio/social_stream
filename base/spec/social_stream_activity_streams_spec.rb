@@ -2,15 +2,15 @@ require 'rails_helper'
 
 describe SocialStream::ActivityStreams do
   it "should find by type" do
-    SocialStream::ActivityStreams.model(:person).should == User
+    expect(SocialStream::ActivityStreams.model(:person)).to eq(User)
   end
 
   it "should return Post as default model" do
-    SocialStream::ActivityStreams.model!(:_test).should == Post
+    expect(SocialStream::ActivityStreams.model!(:_test)).to eq(Post)
   end
 
   it "should find by model" do
-    SocialStream::ActivityStreams.type(User).should == :person
+    expect(SocialStream::ActivityStreams.type(User).should).to eq(:person)
   end
 end
 

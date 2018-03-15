@@ -151,7 +151,7 @@ describe GroupsController do
         expect(response).to redirect_to(@current_model)
       end
 
-      #it_should_behave_like "Allow Updating"
+      it_should_behave_like "Allow Updating"
       it_should_behave_like "Allow Destroying"
     end
 

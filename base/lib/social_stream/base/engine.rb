@@ -6,7 +6,6 @@ module SocialStream
     class Engine < ::Rails::Engine #:nodoc:
       config.app_generators.authentication :devise
       config.app_generators.messages :mailboxer
-      config.app_generators.taggings :acts_as_taggable_on
 
       initializer "social_stream-base.inflections" do
         ActiveSupport::Inflector.inflections do |inflect|

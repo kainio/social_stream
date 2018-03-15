@@ -26,4 +26,6 @@ You have also used finder options. These are also deprecated. Please build a sco
 
 [Learn] inherited_resources gem
 [test] should uncomment spec/controllers/groups_controller_spec.rb:154 and expect the sec to pass
-[current failling spec] spec/controllers/notifications_controller_spec.rb
+[current failling spec] 
+[Devise] move devise configuration from dummy application to SocialStream base and generate new devise views
+[Learn] cancan ability

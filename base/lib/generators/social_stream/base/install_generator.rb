@@ -1,17 +1,20 @@
 class SocialStream::Base::InstallGenerator < Rails::Generators::Base #:nodoc:
   include Rails::Generators::Migration
 
-  hook_for :taggings, :as => :migration
   hook_for :authentication
   hook_for :messages
 
   source_root File.expand_path(File.join('..', 'templates'), __FILE__)
-
+  
+  def copy_acts_as_taggable_on_migrations
+      rake("acts_as_taggable_on_engine:install:migrations")
+  end
+  
   def devise_initializer_config
     inject_into_file "config/initializers/devise.rb",
-                     "\nconfig.omniauth :socialstream, \"4\",\"00053446bc0361d60889b734d9e5f6132cccf3d08abb25a39bc79e23edde80d5900c37ec69aa0aaf7f969bb046858429ffb318de789b553b03ed672ff75859ab\"
+                     "\n  config.omniauth :socialstream, \"4\",\"00053446bc0361d60889b734d9e5f6132cccf3d08abb25a39bc79e23edde80d5900c37ec69aa0aaf7f969bb046858429ffb318de789b553b03ed672ff75859ab\"
                       \n  config.skip_session_storage << :token_auth",
-                      :after => "  # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'"
+                      :after => "  # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'"
   end
 
   def create_devise_route
@@ -32,6 +35,11 @@ class SocialStream::Base::InstallGenerator < Rails::Generators::Base #:nodoc:
 
   def remove_application_layout
     remove_file 'app/views/layouts/application.html.erb'
+  end
+  
+  def add_devise_customisations
+    remove_file 'app/controllers/application_controller.rb'
+    copy_file 'application_controller.rb','app/controllers/application_controller.rb'
   end
 
   def require_javascripts
