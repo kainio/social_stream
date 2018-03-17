@@ -29,3 +29,6 @@ You have also used finder options. These are also deprecated. Please build a sco
 [current failling spec] 
 [Devise] move devise configuration from dummy application to SocialStream base and generate new devise views
 [Learn] cancan ability
+[fix] syncing database with session
+[fix] Search doesn't work
+[fix] avatars_for_rails doesn't work

@@ -129,7 +129,7 @@ class User < ActiveRecord::Base
     end
 
     def find_or_create_for_oauth(info, signed_in_user = nil)
-      auth = Authentication.find_by_provider_and_uid(info["provider"], info["uid"])
+      auth = Authentication.find_by(provider: info["provider"], uid: info["uid"])
 
       if auth.present?
         if signed_in_user.present? && auth.user != signed_in_user
