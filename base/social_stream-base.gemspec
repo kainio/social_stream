@@ -78,6 +78,7 @@ Gem::Specification.new do |s|
   #
   # Integration testing
   s.add_development_dependency('capybara', '~>2.18.0')
+  s.add_development_dependency('bundler-explain', '~>0.2.0')
   # Testing database
   s.add_development_dependency('sqlite3')
   
