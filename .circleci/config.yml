@@ -8,37 +8,42 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/ruby:2.4.1-node-browsers
+      environment:
+        RAILS_ENV: test
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/postgres:9.4
 
-    working_directory: ~/repo
+    working_directory: ~/repo/base
 
     steps:
-      - checkout:
+      - checkout
+      
+      # Setup the environment
+      - run: cp .sample.env .env
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+      # Restore Cached Dependencies
+      - type: cache-restore
+        name: Restore bundle cache
+        key: social_stream-base-{{ checksum "Gemfile.lock" }}
 
       - run:
           name: install dependencies
           command: |
-            cd ./base && bundle install --jobs=4 --retry=3 
+             bundle install --path vendor/bundle
 
-      - save_cache:
-          paths:
-            - ./base/vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      # Cache Dependencies
+      - type: cache-save
+        name: Store bundle cache
+        key: social_stream-base-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
 
       # Database setup
-      - run:   cd ./base && bundle exec rake db:create
-      - run:   cd ./base && bundle exec rake db:schema:load
+      - run:   bundle exec rake db:create
+      - run:   bundle exec rake db:schema:load
 
       # run tests!
       - run:
@@ -48,7 +53,7 @@ jobs:
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
               circleci tests split --split-by=timings)"
 
-             cd ./base  && bundle exec rspec \
+             bundle exec rspec \
               --format progress \
               --format RspecJunitFormatter \
               --out /tmp/test-results/rspec.xml \
