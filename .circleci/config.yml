@@ -29,7 +29,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            cd ./base || bundle install --jobs=4 --retry=3 --path vendor/bundle
+            cd ./base | bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       - save_cache:
           paths:
@@ -37,8 +37,8 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # Database setup
-      - run:  cd ./base || bundle exec rake db:create
-      - run:  cd ./base || bundle exec rake db:schema:load
+      - run:  cd ./base | bundle exec rake db:create
+      - run:  cd ./base | bundle exec rake db:schema:load
 
       # run tests!
       - run:
@@ -48,7 +48,7 @@ jobs:
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
               circleci tests split --split-by=timings)"
 
-             cd ./base || bundle exec rspec \
+             cd ./base | bundle exec rspec \
               --format progress \
               --format RspecJunitFormatter \
               --out /tmp/test-results/rspec.xml \
