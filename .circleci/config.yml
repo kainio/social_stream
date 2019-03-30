@@ -19,29 +19,28 @@ jobs:
     steps:
       - checkout
       
-      # go to base directory
-      - run: cd ./base
+
       # Restore Cached Dependencies
       - type: cache-restore
         name: Restore bundle cache
-        key: social_stream-base-{{ checksum "Gemfile.lock" }}
+        key: social_stream-base-{{ checksum "./base/Gemfile.lock" }}
 
     
       - run:
           name: install dependencies
           command: |
-             bundle install --path vendor/bundle
+             cd ./base && bundle install --path vendor/bundle
 
       # Cache Dependencies
       - type: cache-save
         name: Store bundle cache
-        key: social_stream-base-{{ checksum "Gemfile.lock" }}
+        key: social_stream-base-{{ checksum "./base/Gemfile.lock" }}
         paths:
           - vendor/bundle
 
       # Database setup
-      - run:   bundle exec rake db:create
-      - run:   bundle exec rake db:schema:load
+      - run:   cd ./base && bundle exec rake db:create
+      - run:   cd ./base && bundle exec rake db:schema:load
 
       # run tests!
       - run:
@@ -51,7 +50,7 @@ jobs:
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
               circleci tests split --split-by=timings)"
 
-              bundle exec rspec \
+              cd base && bundle exec rspec \
               --format progress \
               --format RspecJunitFormatter \
               --out /tmp/test-results/rspec.xml \
