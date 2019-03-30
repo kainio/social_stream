@@ -19,8 +19,6 @@ jobs:
     steps:
       - checkout
       
-      # Setup the environment
-      - run: cp .sample.env .env
 
       # Restore Cached Dependencies
       - type: cache-restore
