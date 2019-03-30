@@ -28,7 +28,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-             cd ./base && bundle update
+             cd ./base/spec/dummy && bundle update
 
       # Cache Dependencies
       - type: cache-save
@@ -38,8 +38,8 @@ jobs:
           - vendor/bundle
 
       # Database setup
-      - run:   cd ./base && bundle exec rake db:create
-      - run:   cd ./base && bundle exec rake db:schema:load
+      - run:   cd ./base/spec/dummy  && bundle exec rake db:create
+      - run:   cd ./base/spec/dummy  && bundle exec rake db:schema:load
 
       # run tests!
       - run:
@@ -49,7 +49,7 @@ jobs:
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
               circleci tests split --split-by=timings)"
 
-              cd base && bundle exec rspec \
+              cd ./base && bundle exec rspec \
               --format progress \
               --format RspecJunitFormatter \
               --out /tmp/test-results/rspec.xml \
