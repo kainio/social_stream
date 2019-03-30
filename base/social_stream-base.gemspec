@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('omniauth-facebook', "1.6.0")
   s.add_runtime_dependency('omniauth-linkedin', '0.2.0')
   # Messages
-  s.add_runtime_dependency('mailboxer', '.13.0')
+  s.add_runtime_dependency('mailboxer', '0.13.0')
   # Tagging
   s.add_runtime_dependency('acts-as-taggable-on', '4.0.0')
   # Background jobs
@@ -72,30 +72,30 @@ Gem::Specification.new do |s|
   #s.add_runtime_dependency('strong_parameters')
   # Flash messages
   s.add_runtime_dependency('protected_attributes', '1.1.4')
-  s.add_runtime_dependency('flashy','0.0.1')
+  s.add_runtime_dependency('flashy','~>0.0.1')
 
   # Development gem dependencies
   #
   # Integration testing
-  s.add_development_dependency('capybara', '2.18.0')
-  s.add_development_dependency('bundler-explain', '0.2.0')
+  s.add_development_dependency('capybara', '~>2.18.0')
+  s.add_development_dependency('bundler-explain', '~>0.2.0')
   # Testing database
   s.add_development_dependency('sqlite3')
   
-  s.add_development_dependency('test-unit', '3.2.7')
+  s.add_development_dependency('test-unit', '~>3.2.7')
 
   # Specs
-  s.add_development_dependency('rspec-rails', '3.7.2')
+  s.add_development_dependency('rspec-rails', '~> 3.7.2')
   s.add_development_dependency('rspec-activemodel-mocks')
 
   # Fixtures
-  s.add_development_dependency('factory_bot_rails','4.8.2')
+  s.add_development_dependency('factory_bot_rails','~> 4.8.2')
   # Population
-  s.add_development_dependency('forgery', '0.7.0')
+  s.add_development_dependency('forgery', '~>0.7.0')
   # Continous integration
-  s.add_development_dependency('ci_reporter', '2.0.0')
+  s.add_development_dependency('ci_reporter', '~>2.0.0')
   # Scaffold generator
-  s.add_development_dependency('nifty-generators', '0.4.6')
+  s.add_development_dependency('nifty-generators', '~>0.4.6')
   # pry
   s.add_development_dependency('pry-rails')
 
