@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   # Deep Merge support for Hashes
   s.add_runtime_dependency('deep_merge', '1.2.1')
   # Rails
-  s.add_runtime_dependency('rails', '~>4.0.0')
+  s.add_runtime_dependency('rails', '4.0.0')
   # Rails Engine Decorators
   s.add_runtime_dependency('rails_engine_decorators', '1.0.0')
   # Activity and Relation hierarchies

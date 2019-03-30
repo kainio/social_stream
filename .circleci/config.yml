@@ -25,7 +25,7 @@ jobs:
         name: Restore bundle cache
         key: social_stream-base-{{ checksum "./base/Gemfile.lock" }}
 
-    
+      - run: gem install bundler
       - run:
           name: install dependencies
           command: |
