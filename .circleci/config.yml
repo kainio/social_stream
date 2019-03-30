@@ -28,7 +28,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-             cd ./base && bundle update --path vendor/bundle
+             cd ./base && bundle update
 
       # Cache Dependencies
       - type: cache-save
