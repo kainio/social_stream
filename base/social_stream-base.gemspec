@@ -53,7 +53,7 @@ Gem::Specification.new do |s|
   # Tagging
   s.add_runtime_dependency('acts-as-taggable-on', '4.0.0')
   # Background jobs
-  s.add_runtime_dependency('resque', '1.27.4')
+  s.add_runtime_dependency('resque')
   # Modernizr.js javascript library
   s.add_runtime_dependency('modernizr-rails', '2.7.1')
   # Sphinx search engine
@@ -71,7 +71,7 @@ Gem::Specification.new do |s|
   # Strong Parameters
   #s.add_runtime_dependency('strong_parameters')
   # Flash messages
-  s.add_runtime_dependency('protected_attributes', '1.1.4')
+  s.add_runtime_dependency('protected_attributes')
   s.add_runtime_dependency('flashy','~>0.0.1')
 
   # Development gem dependencies
